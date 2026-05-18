@@ -14,7 +14,7 @@ class _FavouriteState extends State<FavouritePage> {
       backgroundColor: Color(0xFF0F172A),
       body: Center(
         child: Text(
-          "Category Page",
+          "Favourite Page",
           style: TextStyle(fontSize: 32, color: Colors.white),
         ),
       ),

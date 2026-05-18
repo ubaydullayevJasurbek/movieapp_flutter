@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/repository_impl/movie_repository.dart';
+import '../../../data/repository_impl/movie_repository.dart';
 import 'movie_state.dart';
 
 class MovieCubit extends Cubit<MovieState> {
@@ -16,4 +16,6 @@ class MovieCubit extends Cubit<MovieState> {
       emit(MovieError(e.toString()));
     }
   }
+
+
 }

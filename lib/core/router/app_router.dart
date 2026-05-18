@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:movieapp/feature/main/presentation/page/main_page.dart';
 
-import '../../feature/home/presentation/page/home_page.dart';
 import '../../feature/splash/presentation/page/splash_page.dart';
 
 abstract class AppRouter {
@@ -11,7 +11,7 @@ abstract class AppRouter {
     initialLocation: "/",
     routes: [
       GoRoute(path: init, builder: (context, state) => SplashScreen()),
-      GoRoute(path: home,builder: (context,state)=> HomePage())
+      GoRoute(path: home,builder: (context,state)=> MainPage())
     ],
   );
 }

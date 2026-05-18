@@ -9,7 +9,7 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: Color(0xFF0F172A),
       body: Center(
         child: Text(
-          "Category Page",
+          "Profile Page",
           style: TextStyle(fontSize: 32, color: Colors.white),
         ),
       ),

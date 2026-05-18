@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '../model/movie_response.dart';
+import 'package:movieapp/feature/home/data/model/now_playing_response/now_playing_response.dart';
+import 'package:movieapp/feature/home/data/model/top_rated_response/top_rated_response.dart';
+import '../model/move_response/movie_response.dart';
 
 class MovieDataSource {
   late final Dio dio;
@@ -31,4 +33,28 @@ class MovieDataSource {
       throw Exception("Filmlar yuklanmadi: ${e.message}");
     }
   }
+  
+  Future<TopRatedResponse> getTopRated() async{
+    try{
+      final topresponse =await dio.get("/3/movie/top_rated");
+      debugPrint("RESPONSE: ${topresponse.data}");
+      return TopRatedResponse.fromJson(topresponse.data);
+    } on DioException catch(e){
+      debugPrint("DIO ERROR: ${e.message}");
+      throw Exception("Filmlar yuklanmadi:${e.message}");
+    }
+  }
+
+  
+  Future<NowPlayingResponse> getNowPlay() async{
+    try{
+      final nowPlayResponse = await dio.get("/3/movie/now_playing");
+      debugPrint("RESPONSE: ${nowPlayResponse.data}");
+      return NowPlayingResponse.fromJson(nowPlayResponse.data);
+    }  on DioException catch(e){
+      debugPrint("DIO ERROR: ${e.message}");
+      throw Exception("Filmlar yuklanmadi: ${e.message}");
+    }
+  }
+
 }
