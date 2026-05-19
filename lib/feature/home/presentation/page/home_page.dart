@@ -5,8 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:movieapp/feature/home/presentation/cubit/now_playing_cubit/now_playing_cubit.dart';
 import 'package:movieapp/feature/home/presentation/cubit/top_rated_cubit/top_rated_cubit.dart';
 import 'package:movieapp/feature/home/presentation/cubit/top_rated_cubit/top_rated_state.dart';
+import 'package:movieapp/feature/home/presentation/cubit/tv_series_cubit/tv_series_cubit.dart';
+import 'package:movieapp/feature/home/presentation/cubit/tv_series_cubit/tv_series_state.dart';
 import 'package:movieapp/feature/home/presentation/widget/now_playing_item.dart';
 import 'package:movieapp/feature/home/presentation/widget/top_rated_slider.dart';
+import 'package:movieapp/feature/home/presentation/widget/tv_series_item.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../../data/model/now_playing_response/now_playing_response.dart';
 import '../cubit/movie_cubit/movie_cubit.dart';
 import '../cubit/movie_cubit/movie_state.dart';
 import '../cubit/now_playing_cubit/now_playing_state.dart';
@@ -22,6 +27,7 @@ class HomePage extends StatelessWidget {
         BlocProvider(create: (_) => MovieCubit()..getMovies()),
         BlocProvider(create: (_) => TopRatedCubit()..getTopRated()),
         BlocProvider(create: (_) => NowPlayingCubit()..getNowPlaying()),
+        BlocProvider(create: (_) => TvSeriesCubit()..getTVSeries()),
       ],
       child: const _HomeView(),
     );
@@ -38,6 +44,8 @@ class _HomeView extends StatefulWidget {
 class _HomeViewState extends State<_HomeView> {
   final TextEditingController _searchController = TextEditingController();
   bool _hasText = false;
+
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -108,7 +116,7 @@ class _HomeViewState extends State<_HomeView> {
                 const SizedBox(height: 20),
                 const Text(
                   "Trending Movies",
-                  style: TextStyle(color: Colors.white, fontSize: 24),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ],
             ),
@@ -167,14 +175,14 @@ class _HomeViewState extends State<_HomeView> {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              "Top Rated",
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              "Top Movies",
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           ),
 
           const SizedBox(height: 12),
 
-          // Top Rated
+          // Top Movies
           BlocBuilder<TopRatedCubit, TopRatedState>(
             builder: (context, state) {
               if (state is TopRatedLoading) {
@@ -197,28 +205,110 @@ class _HomeViewState extends State<_HomeView> {
                 );
               }
               if (state is TopRatedLoaded) {
-                return CarouselSlider(
-                  options: CarouselOptions(
-                    height: 230,
-                    autoPlay: true,
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    autoPlayAnimationDuration: const Duration(
-                      milliseconds: 800,
+                return Column(
+                  children: [
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        onPageChanged: (index, reason) {
+                          setState(() => _currentIndex = index);
+                        },
+                        height: 170,
+                        autoPlay: true,
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        autoPlayAnimationDuration: const Duration(
+                          milliseconds: 800,
+                        ),
+                        autoPlayInterval: const Duration(seconds: 3),
+                        enlargeCenterPage: true,
+                        enlargeFactor: 0.08,
+                        viewportFraction: 0.82,
+                        clipBehavior: Clip.none,
+                      ),
+                      items: state.movies.map((movie) {
+                        return TopRatedSlider(
+                          title: movie.title,
+                          imageUrl:
+                              'https://image.tmdb.org/t/p/w780${movie.backdropPath}',
+                          rating: movie.voteAverage,
+                          genre:
+                              genreMap[movie.genreIds.isNotEmpty
+                                  ? movie.genreIds.first
+                                  : null],
+                          year: movie.releaseDate.year,
+                        );
+                      }).toList(),
                     ),
-                    autoPlayInterval: const Duration(seconds: 3),
-                    enlargeCenterPage: true,
-                    enlargeFactor: 0.12,
-                    viewportFraction: 0.80,
-                    clipBehavior: Clip.none,
+
+                    const SizedBox(height: 10),
+
+                    AnimatedSmoothIndicator(
+                      activeIndex: _currentIndex,
+                      count: state.movies.length,
+                      effect: const ExpandingDotsEffect(
+                        activeDotColor: Colors.white,
+                        dotColor: Colors.white24,
+                        dotHeight: 5,
+                        dotWidth: 5,
+                        expansionFactor: 3,
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+          const SizedBox(height: 12),
+
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child: Text(
+              "TV Series",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          BlocBuilder<TvSeriesCubit, TVSeriesState>(
+            builder: (context, state) {
+              if (state is TVSeriesLoading) {
+                return const SizedBox(
+                  height: 300,
+                  child: Center(
+                    child: CircularProgressIndicator(color: Colors.white),
                   ),
-                  items: state.movies.map((movie) {
-                    return TopRatedSlider(
-                      title: movie.title,
-                      imageUrl:
-                          'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                      rating: movie.voteAverage,
-                    );
-                  }).toList(),
+                );
+              }
+              if (state is TVSeriesError) {
+                return SizedBox(
+                  height: 300,
+                  child: Center(
+                    child: Text(
+                      'Xatolik: ${state.message}',
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
+                );
+              }
+              if (state is TVSeriesLoaded) {
+                return SizedBox(
+                  height: 300,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    itemCount: state.movies.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: TvSeriesItem(
+                          title: state.movies[index].name,
+                          imageUrl:
+                              'https://image.tmdb.org/t/p/w500${state.movies[index].posterPath}',
+                          rating: state.movies[index].voteAverage,
+                        ),
+                      );
+                    },
+                  ),
                 );
               }
               return const SizedBox.shrink();
@@ -226,12 +316,11 @@ class _HomeViewState extends State<_HomeView> {
           ),
 
           const SizedBox(height: 12),
-
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               "Now Playing",
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           ),
 
@@ -263,12 +352,12 @@ class _HomeViewState extends State<_HomeView> {
                   child: Column(
                     children: List.generate(
                       state.movies.length,
-                          (index) => Padding(
+                      (index) => Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: NowPlayingItem(
                           title: state.movies[index].title,
                           imageUrl:
-                          'https://image.tmdb.org/t/p/w500${state.movies[index].posterPath}',
+                              'https://image.tmdb.org/t/p/w500${state.movies[index].posterPath}',
                           overview: state.movies[index].overview,
                         ),
                       ),

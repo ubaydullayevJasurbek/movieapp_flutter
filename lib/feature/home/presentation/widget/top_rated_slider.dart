@@ -1,126 +1,168 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class TopRatedSlider extends StatelessWidget {
   final String title;
   final String imageUrl;
   final double rating;
+  final String? genre;
+  final int? year;
 
   const TopRatedSlider({
     super.key,
     required this.title,
     required this.imageUrl,
     required this.rating,
+    required this.genre,
+    required this.year,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // ✅ Rasm to'liq to'ldirilgan
-          Image.network(
-            imageUrl,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-            errorBuilder: (context, __, ___) => Container(
-              color: Colors.grey[850],
-              child: const Icon(
-                Icons.broken_image_rounded,
-                size: 52,
-                color: Colors.white30,
+    return AspectRatio(
+      aspectRatio: 16 / 9.1,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(14),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // ── Rasm ─────────────────────────────────────────
+            Image.network(
+              imageUrl,
+              fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
+              errorBuilder: (_, __, ___) => Container(
+                color: const Color(0xFF1A1D27),
+                child: const Icon(
+                  Icons.broken_image_rounded,
+                  color: Colors.white24,
+                  size: 36,
+                ),
               ),
             ),
-          ),
 
-          // ✅ Yuqoridan qoraya tushadigan gradient (rating uchun)
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.center,
-                colors: [
-                  Colors.black54,
-                  Colors.transparent,
-                ],
-              ),
-            ),
-          ),
-
-          // ✅ Pastdan qoraya tushadigan gradient (title uchun)
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.center,
-                colors: [
-                  Colors.black87,
-                  Colors.transparent,
-                ],
-              ),
-            ),
-          ),
-
-          // ✅ Rating — TOP RIGHT
-          Positioned(
-            top: 10,
-            right: 10,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            // ── Yuqori gradient ───────────────────────────────
+            const DecoratedBox(
               decoration: BoxDecoration(
-                color: Colors.amber.shade700,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.amber.withOpacity(0.4),
-                    blurRadius: 8,
-                    spreadRadius: 1,
-                  ),
-                ],
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.0, 0.4],
+                  colors: [Color(0xAA000000), Colors.transparent],
+                ),
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.star_rounded, size: 14, color: Colors.white),
-                  const SizedBox(width: 4),
-                  Text(
-                    rating.toStringAsFixed(1),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
+            ),
+
+            // ── Pastki gradient ───────────────────────────────
+            const DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  stops: [0.0, 0.5, 1.0],
+                  colors: [
+                    Color(0xE0000000),
+                    Color(0x66000000),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+
+            // ── Rating badge (glassmorphism) ──────────────────
+            Positioned(
+              top: 10,
+              right: 10,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.13),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.22),
+                        width: 0.5,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.star_rounded,
+                          size: 11,
+                          color: Color(0xFFFFD700),
+                        ),
+                        const SizedBox(width: 3),
+                        Text(
+                          rating.toStringAsFixed(1),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.3,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
             ),
-          ),
 
-          // ✅ Title — BOTTOM LEFT
-          Positioned(
-            bottom: 12,
-            left: 12,
-            right: 12,
-            child: Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                shadows: [
-                  Shadow(
-                    color: Colors.black,
-                    blurRadius: 8,
-                  ),
-                ],
+            // ── Genre + Title ─────────────────────────────────
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 11),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (genre != null || year != null)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: Text(
+                          [
+                            if (genre != null) genre!.toUpperCase(),
+                            if (year != null) year.toString(),
+                          ].join(' · '),
+                          style: const TextStyle(
+                            color: Colors.white54,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.4,
+                          ),
+                        ),
+                      ),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                        height: 1.2,
+                        letterSpacing: -0.2,
+                        shadows: [
+                          Shadow(color: Color(0xFF000000), blurRadius: 10),
+                        ],
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

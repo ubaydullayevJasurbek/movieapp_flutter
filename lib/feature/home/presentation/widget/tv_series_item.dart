@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class TrendingItem extends StatelessWidget {
+class TvSeriesItem extends StatelessWidget {
   final String title;
   final String imageUrl;
   final double rating;
 
-  const TrendingItem({
+  const TvSeriesItem({
     super.key,
     required this.title,
     required this.imageUrl,
