@@ -46,6 +46,7 @@ dependencies:
   smooth_page_indicator: ^2.0.1
 
 
+  json_annotation: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

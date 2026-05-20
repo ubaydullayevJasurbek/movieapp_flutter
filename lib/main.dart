@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movieapp/feature/home/data/data_source/movie_data_source.dart';
 
@@ -7,6 +8,15 @@ import 'core/router/app_router.dart';
 void main()  async{
   await dotenv.load(fileName:  ".env");
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark
+    )
+  );
+
   runApp(const MyApp());
   await MovieDataSource().getMovies();
 

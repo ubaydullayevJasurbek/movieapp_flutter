@@ -31,7 +31,7 @@ class TopRatedSlider extends StatelessWidget {
               imageUrl,
               fit: BoxFit.cover,
               alignment: Alignment.topCenter,
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (_, _, _) => Container(
                 color: const Color(0xFF1A1D27),
                 child: const Icon(
                   Icons.broken_image_rounded,
