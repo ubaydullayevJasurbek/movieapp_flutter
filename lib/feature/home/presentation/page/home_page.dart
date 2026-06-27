@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/movie_cubit/movie_cubit.dart';
@@ -16,30 +17,37 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => MovieCubit()..getMovies()),
-        BlocProvider(create: (_) => TopRatedCubit()..getTopRated()),
-        BlocProvider(create: (_) => NowPlayingCubit()..getNowPlaying()),
-        BlocProvider(create: (_) => TvSeriesCubit()..getTVSeries()),
-      ],
-      child: Scaffold(
-        backgroundColor: const Color(0xFF0B1527),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              HomeSearchBar(),
-              SizedBox(height: 20),
-              TrendingSection(),
-              SizedBox(height: 20),
-              TopMoviesSection(),
-              SizedBox(height: 12),
-              TvSeriesSection(),
-              SizedBox(height: 12),
-              NowPlayingSection(),
-              SizedBox(height: 100),
-            ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+      ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => MovieCubit()..getMovies()),
+          BlocProvider(create: (_) => TopRatedCubit()..getTopRated()),
+          BlocProvider(create: (_) => NowPlayingCubit()..getNowPlaying()),
+          BlocProvider(create: (_) => TvSeriesCubit()..getTVSeries()),
+        ],
+        child: Scaffold(
+          backgroundColor: const Color(0xFF0B1527),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                HomeSearchBar(),
+                SizedBox(height: 20),
+                TrendingSection(),
+                SizedBox(height: 20),
+                TopMoviesSection(),
+                SizedBox(height: 12),
+                TvSeriesSection(),
+                SizedBox(height: 12),
+                NowPlayingSection(),
+                SizedBox(height: 100),
+              ],
+            ),
           ),
         ),
       ),

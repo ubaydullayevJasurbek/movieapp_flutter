@@ -1,30 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../page/search_page.dart';
 
-class HomeSearchBar extends StatefulWidget {
+class HomeSearchBar extends StatelessWidget {
   const HomeSearchBar({super.key});
-
-  @override
-  State<HomeSearchBar> createState() => _HomeSearchBarState();
-}
-
-class _HomeSearchBarState extends State<HomeSearchBar> {
-  final TextEditingController _searchController = TextEditingController();
-  bool _hasText = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController.addListener(() {
-      setState(() => _hasText = _searchController.text.isNotEmpty);
-    });
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,32 +30,33 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
             ),
           ),
           const SizedBox(height: 20),
-          TextField(
-            controller: _searchController,
-            style: const TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: const Color(0xFF1E293B),
-              hintText: "Movie searching...",
-              hintStyle: const TextStyle(color: Color(0xFF475569)),
-              prefixIcon: const Icon(
-                Icons.search_rounded,
-                color: Colors.white,
-              ),
-              suffixIcon: _hasText
-                  ? IconButton(
-                icon: const Icon(Icons.clear, color: Colors.white),
-                onPressed: () => _searchController.clear(),
-              )
-                  : null,
-              border: OutlineInputBorder(
+          GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SearchPage()),
+            ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1E293B),
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: Colors.white),
+                border: Border.all(color: Colors.white12),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.search_rounded, color: Colors.white54),
+                  SizedBox(width: 12),
+                  Text(
+                    "Movie searching...",
+                    style: TextStyle(color: Color(0xFF475569), fontSize: 15),
+                  ),
+                  Spacer(),
+                  Icon(Icons.mic_rounded, color: Colors.white38),
+                ],
               ),
             ),
           ),
           const SizedBox(height: 20),
-
         ],
       ),
     );

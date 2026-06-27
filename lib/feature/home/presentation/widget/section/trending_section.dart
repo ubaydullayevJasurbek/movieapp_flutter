@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movieapp/feature/details/presentation/pages/movie_details_page.dart';
 
 import '../../cubit/movie_cubit/movie_cubit.dart';
 import '../../cubit/movie_cubit/movie_state.dart';
@@ -58,6 +59,16 @@ class TrendingSection extends StatelessWidget {
                         imageUrl:
                             'https://image.tmdb.org/t/p/w500${state.movies[index].posterPath}',
                         rating: state.movies[index].voteAverage,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => MovieDetailsPage(
+                                movieId: state.movies[index].id,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },
