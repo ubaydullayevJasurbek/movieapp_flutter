@@ -1,6 +1,8 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../details/presentation/pages/movie_details_page.dart';
 import '../../cubit/now_playing_cubit/now_playing_cubit.dart';
 import '../../cubit/now_playing_cubit/now_playing_state.dart';
 import '../item/now_playing_item.dart';
@@ -46,20 +48,37 @@ class NowPlayingSection extends StatelessWidget{
               );
             }
             if (state is NowPlayingLoaded) {
-              return Padding(
+              return  Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: List.generate(
                     state.movies.length,
-                        (index) => Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: NowPlayingItem(
-                        title: state.movies[index].title,
-                        imageUrl:
-                        'https://image.tmdb.org/t/p/w500${state.movies[index].posterPath}',
-                        overview: state.movies[index].overview,
-                      ),
-                    ),
+                        (index) {
+                      final movie = state.movies[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: OpenContainer(
+                          transitionDuration: const Duration(milliseconds: 400),
+                          transitionType: ContainerTransitionType.fade,
+                          closedElevation: 0,
+                          closedColor: Colors.transparent,
+                          openColor: Colors.transparent,
+                          middleColor: Colors.transparent,
+                          closedShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          closedBuilder: (context, openContainer) => NowPlayingItem(
+                            title: movie.title,
+                            imageUrl: 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                            overview: movie.overview,
+                            onTap: openContainer,
+                          ),
+                          openBuilder: (context, closeContainer) => MovieDetailsPage(
+                            movieId: movie.id,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               );

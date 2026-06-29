@@ -150,6 +150,7 @@ class _SearchPageState extends State<SearchPage> {
                           itemBuilder: (context, index) {
                             final movie = state.movies[index];
                             return TrendingItem(
+                              heroTag: "poster_${state.movies[index].id}",
                               title: movie.title,
                               imageUrl:
                                   'https://image.tmdb.org/t/p/w500${movie.posterPath}',

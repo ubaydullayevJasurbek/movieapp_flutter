@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/feature/details/presentation/pages/movie_details_page.dart';
@@ -54,21 +55,28 @@ class TrendingSection extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(right: 16),
-                      child: TrendingItem(
-                        title: state.movies[index].title,
-                        imageUrl:
-                            'https://image.tmdb.org/t/p/w500${state.movies[index].posterPath}',
-                        rating: state.movies[index].voteAverage,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => MovieDetailsPage(
-                                movieId: state.movies[index].id,
-                              ),
-                            ),
-                          );
-                        },
+                      child: OpenContainer(
+                        transitionDuration: const Duration(milliseconds: 400),
+                        transitionType: ContainerTransitionType.fade,
+                        closedElevation: 0,
+                        closedColor: Colors.transparent,
+                        openColor: Colors.transparent,
+                        middleColor: Colors.transparent,
+                        closedShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+
+                        closedBuilder: (context, openContainer) => TrendingItem(
+                          title: state.movies[index].title,
+                          heroTag: "poster_${state.movies[index].id}",
+                          imageUrl:
+                              'https://image.tmdb.org/t/p/w500${state.movies[index].posterPath}',
+                          rating: state.movies[index].voteAverage,
+                          onTap: openContainer,
+                        ),
+
+                        openBuilder: (context, closeContainer) =>
+                            MovieDetailsPage(movieId: state.movies[index].id),
                       ),
                     );
                   },

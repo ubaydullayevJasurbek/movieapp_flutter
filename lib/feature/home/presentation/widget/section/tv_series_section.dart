@@ -1,5 +1,7 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../details/presentation/pages/movie_details_page.dart';
 import '../../cubit/tv_series_cubit/tv_series_cubit.dart';
 import '../../cubit/tv_series_cubit/tv_series_state.dart';
 import '../item/tv_series_item.dart';
@@ -12,7 +14,6 @@ class TvSeriesSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 24),
           child: Text(
@@ -21,7 +22,6 @@ class TvSeriesSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-
 
         BlocBuilder<TvSeriesCubit, TVSeriesState>(
           builder: (context, state) {
@@ -55,10 +55,26 @@ class TvSeriesSection extends StatelessWidget {
                     final movie = state.movies[index];
                     return Padding(
                       padding: const EdgeInsets.only(right: 16),
-                      child: TvSeriesItem(
-                        title: movie.name,
-                        imageUrl: 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                        rating: movie.voteAverage,
+                      child: OpenContainer(
+                        transitionDuration: const Duration(milliseconds: 400),
+                        transitionType: ContainerTransitionType.fade,
+                        closedElevation: 0,
+                        closedColor: Colors.transparent,
+                        openColor: Colors.transparent,
+                        middleColor: Colors.transparent,
+                        closedShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        closedBuilder: (context, openContainer) => TvSeriesItem(
+                          title: movie.name,
+                          heroTag: "poster_${movie.id}",
+                          imageUrl:
+                              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                          rating: movie.voteAverage,
+                          onTap: openContainer,
+                        ),
+                        openBuilder: (context, closeContainer) =>
+                            MovieDetailsPage(movieId: movie.id,),
                       ),
                     );
                   },

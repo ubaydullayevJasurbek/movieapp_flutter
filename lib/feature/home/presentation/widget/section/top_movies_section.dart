@@ -1,8 +1,10 @@
+import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../details/presentation/pages/movie_details_page.dart';
 import '../../../data/model/now_playing_response/now_playing_response.dart';
 import '../../cubit/top_rated_cubit/top_rated_cubit.dart';
 import '../../cubit/top_rated_cubit/top_rated_state.dart';
@@ -59,9 +61,7 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                   CarouselSlider(
                     options: CarouselOptions(
                       onPageChanged: (index, reason) {
-                        setState(
-                          () => _currentIndex = index,
-                        ); // 👈 endi ishlaydi
+                        setState(() => _currentIndex = index);
                       },
                       height: 170,
                       autoPlay: true,
@@ -76,16 +76,27 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                       clipBehavior: Clip.none,
                     ),
                     items: state.movies.map((movie) {
-                      return TopRatedSlider(
-                        title: movie.title,
-                        imageUrl:
-                            'https://image.tmdb.org/t/p/w780${movie.backdropPath}',
-                        rating: movie.voteAverage,
-                        genre:
-                            genreMap[movie.genreIds.isNotEmpty
-                                ? movie.genreIds.first
-                                : null],
-                        year: movie.releaseDate.year,
+                      return OpenContainer(
+                        transitionDuration: const Duration(milliseconds: 400),
+                        transitionType: ContainerTransitionType.fade,
+                        closedElevation: 0,
+                        closedColor: Colors.transparent,
+                        openColor: Colors.transparent,
+                        middleColor: Colors.transparent,
+                        closedShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16), // TopRatedSlider shakliga mos
+                        ),
+                        closedBuilder: (context, openContainer) => TopRatedSlider(
+                          title: movie.title,
+                          imageUrl: 'https://image.tmdb.org/t/p/w780${movie.backdropPath}',
+                          rating: movie.voteAverage,
+                          genre: genreMap[movie.genreIds.isNotEmpty ? movie.genreIds.first : null],
+                          year: movie.releaseDate.year,
+                          onTap: openContainer,
+                        ),
+                        openBuilder: (context, closeContainer) => MovieDetailsPage(
+                          movieId: movie.id,
+                        ),
                       );
                     }).toList(),
                   ),

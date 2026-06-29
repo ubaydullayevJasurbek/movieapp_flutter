@@ -40,20 +40,23 @@ class MovieInfoCard extends StatelessWidget {
               children: [
                 Transform.translate(
                   offset: const Offset(0, -55),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18),
-                    child: Image.network(
-                      "https://image.tmdb.org/t/p/w500${movie.posterPath ?? ""}",
-                      width: 120,
-                      height: 180,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) {
-                        return Container(
-                          width: 120,
-                          height: 180,
-                          color: Colors.grey.shade800,
-                        );
-                      },
+                  child: Hero(
+                    tag: "poster_${movie.id}",
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(18),
+                      child: Image.network(
+                        "https://image.tmdb.org/t/p/w500${movie.posterPath ?? ""}",
+                        width: 120,
+                        height: 180,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) {
+                          return Container(
+                            width: 120,
+                            height: 180,
+                            color: Colors.grey.shade800,
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -170,6 +173,7 @@ class MovieInfoCard extends StatelessWidget {
               ],
             ),
 
+            SizedBox(height: 12),
             Transform.translate(
               offset: const Offset(0, -40),
               child: Column(
@@ -309,7 +313,7 @@ class MovieInfoCard extends StatelessWidget {
                       }
                       return const SizedBox();
                     },
-                  )
+                  ),
                 ],
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:movieapp/feature/details/data/model/cast_model/details_cast_resp
 
 class CastMovie extends StatelessWidget {
   final List<Cast> castList;
+
   const CastMovie({super.key, required this.castList});
 
   @override
@@ -20,7 +21,8 @@ class CastMovie extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.only(right: 16),
             child: _castItem(
-              imageUrl: "https://image.tmdb.org/t/p/w185${cast.profilePath ?? ''}",
+              imageUrl:
+                  "https://image.tmdb.org/t/p/w185${cast.profilePath ?? ''}",
               name: cast.name ?? '',
               character: cast.character ?? '',
             ),
@@ -36,37 +38,53 @@ Widget _castItem({
   required String name,
   required String character,
 }) {
-  return Column(
-    children: [
-      Container(
-        width: 70,
-        height: 70,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white24, width: 1.5),
-          image: DecorationImage(
-            image: NetworkImage(imageUrl),
-            fit: BoxFit.cover,
+  return SizedBox(
+    width: 80,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 70,
+          height: 70,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.white24,
+              width: 1.5,
+            ),
+            image: DecorationImage(
+              image: NetworkImage(imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
-      ),
-      const SizedBox(height: 8),
-      Text(
-        name,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
+        const SizedBox(height: 8),
+
+        Text(
+          name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-      ),
-      Text(
-        character,
-        style: const TextStyle(
-          color: Colors.white54,
-          fontSize: 11,
+
+        const SizedBox(height: 2),
+
+        Text(
+          character,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Colors.white54,
+            fontSize: 11,
+          ),
         ),
-      ),
-    ],
+      ],
+    ),
   );
 }
-

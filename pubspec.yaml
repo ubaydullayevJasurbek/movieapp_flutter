@@ -46,6 +46,7 @@ dependencies:
   smooth_page_indicator: ^2.0.1
   intl: ^0.20.2
   share_plus: ^10.0.0
+  animations: ^2.0.11
 
   json_annotation: any
   fpdart: ^1.2.0

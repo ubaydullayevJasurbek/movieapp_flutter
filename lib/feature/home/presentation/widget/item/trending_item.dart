@@ -4,6 +4,7 @@ class TrendingItem extends StatelessWidget {
   final String title;
   final String imageUrl;
   final double rating;
+  final String heroTag;
   final VoidCallback? onTap;
 
   const TrendingItem({
@@ -11,7 +12,8 @@ class TrendingItem extends StatelessWidget {
     required this.title,
     required this.imageUrl,
     required this.rating,
-    this.onTap
+    this.onTap,
+    required this.heroTag,
   });
 
   @override
@@ -26,28 +28,31 @@ class TrendingItem extends StatelessWidget {
           child: Stack(
             children: [
               // Rasm — to'liq hajmda
-              Image.network(
-                imageUrl,
-                width: 200,
-                height: 300,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Container(
-                    color: Colors.grey.shade900,
-                    child: const Center(child: CircularProgressIndicator()),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.grey.shade800,
-                    child: const Icon(
-                      Icons.broken_image,
-                      color: Colors.white54,
-                      size: 40,
-                    ),
-                  );
-                },
+              Hero(
+                tag: heroTag,
+                child: Image.network(
+                  imageUrl,
+                  width: 200,
+                  height: 300,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      color: Colors.grey.shade900,
+                      child: const Center(child: CircularProgressIndicator()),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.grey.shade800,
+                      child: const Icon(
+                        Icons.broken_image,
+                        color: Colors.white54,
+                        size: 40,
+                      ),
+                    );
+                  },
+                ),
               ),
 
               // Gradient — pastdan yuqoriga qorayadi
@@ -72,7 +77,10 @@ class TrendingItem extends StatelessWidget {
                 top: 10,
                 right: 10,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.6),
                     borderRadius: BorderRadius.circular(20),
