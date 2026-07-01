@@ -87,10 +87,10 @@ class TopRatedSlider extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.13),
+                        color: Colors.white.withValues(alpha: 0.13),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.22),
+                          color: Colors.white.withValues(alpha: 0.22),
                           width: 0.5,
                         ),
                       ),

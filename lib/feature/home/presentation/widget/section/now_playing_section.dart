@@ -16,12 +16,29 @@ class NowPlayingSection extends StatelessWidget{
     return   Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          child: Text(
-            "Now Playing",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                "Now Playing",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ),
+
+            const Spacer(),
+
+            const Text(
+              "See all",
+              style: TextStyle(
+                color: Color(0xffE50914),
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+            ),
+            const SizedBox(width: 14),
+          ],
         ),
         const SizedBox(height: 12),
 

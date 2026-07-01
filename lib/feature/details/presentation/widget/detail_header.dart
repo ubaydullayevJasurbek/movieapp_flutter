@@ -26,17 +26,22 @@ class DetailHeader extends StatelessWidget {
               ? Image.network(backdropUrl!, fit: BoxFit.cover)
               : Container(color: Colors.grey.shade900),
 
-          /// DARK GRADIENT
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Color.fromARGB(80, 0, 0, 0),
-                  Color(0xff08111F),
-                ],
+          /// SMOOTH DARK GRADIENT
+          /// SMOOTH DARK GRADIENT
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: const [0.0, 0.55, 0.82, 1.0],
+                  colors: [
+                    Colors.transparent,
+                    Colors.transparent,
+                    Colors.black.withValues(alpha: 0.35),
+                    const Color(0xFF08111F),
+                  ],
+                ),
               ),
             ),
           ),
@@ -69,7 +74,7 @@ class DetailHeader extends StatelessWidget {
               height: 82,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(.25),
+                color: Colors.white.withValues(alpha: 0.25),
                 border: Border.all(color: Colors.white24),
               ),
               child: const Icon(

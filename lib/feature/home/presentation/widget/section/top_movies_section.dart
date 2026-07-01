@@ -25,12 +25,30 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          child: Text(
-            "Top Movies",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                "Top Movies",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ),
+
+            const Spacer(),
+
+            const Text(
+              "See all",
+              style: TextStyle(
+                color: Color(0xffE50914),
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+            ),
+
+            const SizedBox(width: 14),
+          ],
         ),
         const SizedBox(height: 12),
 
@@ -84,7 +102,7 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                         openColor: Colors.transparent,
                         middleColor: Colors.transparent,
                         closedShape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16), // TopRatedSlider shakliga mos
+                          borderRadius: BorderRadius.circular(16), 
                         ),
                         closedBuilder: (context, openContainer) => TopRatedSlider(
                           title: movie.title,

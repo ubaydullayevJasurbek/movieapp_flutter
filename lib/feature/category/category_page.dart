@@ -14,7 +14,7 @@ class _CategoryState extends State<CategoryPage> {
       backgroundColor: Color(0xFF0F172A),
       body: Center(
         child: Text(
-          "Category Page",
+          "Favorite Page",
           style: TextStyle(fontSize: 32, color: Colors.white),
         ),
       ),
