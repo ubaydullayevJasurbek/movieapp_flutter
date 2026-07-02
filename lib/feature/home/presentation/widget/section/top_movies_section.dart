@@ -25,32 +25,53 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                "Top Movies",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: const [
+                  Icon(
+                    Icons.workspace_premium,
+                    color: Color(0xffFFD054),
+                    size: 20,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    "Top Rated",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
               ),
-            ),
-
-            const Spacer(),
-
-            const Text(
-              "See all",
-              style: TextStyle(
-                color: Color(0xffE50914),
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
+              GestureDetector(
+                onTap: () {},
+                child: Row(
+                  children: [
+                    Text(
+                      "See all",
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.5),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
+                      ),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: Colors.white.withValues(alpha: 0.5),
+                      size: 16,
+                    ),
+                  ],
+                ),
               ),
-            ),
-
-            const SizedBox(width: 14),
-          ],
+            ],
+          ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
 
         BlocBuilder<TopRatedCubit, TopRatedState>(
           builder: (context, state) {
@@ -81,15 +102,15 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                       onPageChanged: (index, reason) {
                         setState(() => _currentIndex = index);
                       },
-                      height: 170,
+                      height: 190,
                       autoPlay: true,
-                      autoPlayCurve: Curves.fastOutSlowIn,
+                      autoPlayCurve: Curves.easeInOutCubic,
                       autoPlayAnimationDuration: const Duration(
                         milliseconds: 800,
                       ),
-                      autoPlayInterval: const Duration(seconds: 3),
+                      autoPlayInterval: const Duration(seconds: 4),
                       enlargeCenterPage: true,
-                      enlargeFactor: 0.08,
+                      enlargeFactor: 0.14,
                       viewportFraction: 0.82,
                       clipBehavior: Clip.none,
                     ),
@@ -102,32 +123,36 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                         openColor: Colors.transparent,
                         middleColor: Colors.transparent,
                         closedShape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16), 
+                          borderRadius: BorderRadius.circular(18),
                         ),
                         closedBuilder: (context, openContainer) => TopRatedSlider(
                           title: movie.title,
-                          imageUrl: 'https://image.tmdb.org/t/p/w780${movie.backdropPath}',
+                          imageUrl:
+                              'https://image.tmdb.org/t/p/w780${movie.backdropPath}',
                           rating: movie.voteAverage,
-                          genre: genreMap[movie.genreIds.isNotEmpty ? movie.genreIds.first : null],
+                          genre:
+                              genreMap[movie.genreIds.isNotEmpty
+                                  ? movie.genreIds.first
+                                  : null],
                           year: movie.releaseDate.year,
                           onTap: openContainer,
                         ),
-                        openBuilder: (context, closeContainer) => MovieDetailsPage(
-                          movieId: movie.id,
-                        ),
+                        openBuilder: (context, closeContainer) =>
+                            MovieDetailsPage(movieId: movie.id),
                       );
                     }).toList(),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 14),
                   AnimatedSmoothIndicator(
                     activeIndex: _currentIndex,
                     count: state.movies.length,
                     effect: const ExpandingDotsEffect(
-                      activeDotColor: Colors.white,
+                      activeDotColor: Color(0xffFFD054),
                       dotColor: Colors.white24,
-                      dotHeight: 5,
-                      dotWidth: 5,
-                      expansionFactor: 3,
+                      dotHeight: 6,
+                      dotWidth: 6,
+                      expansionFactor: 3.5,
+                      spacing: 6,
                     ),
                   ),
                 ],

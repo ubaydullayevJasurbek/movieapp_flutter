@@ -15,38 +15,55 @@ class TrendingSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                "Trending Movies",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: const [
+                  Icon(Icons.trending_up, color: Color(0xffFFD054), size: 20),
+                  SizedBox(width: 8),
+                  Text(
+                    "Trending Now",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
               ),
-            ),
-
-            const Spacer(),
-
-            const Text(
-              "See all",
-              style: TextStyle(
-                color: Color(0xffE50914),
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
+              GestureDetector(
+                onTap: () {},
+                child: Row(
+                  children: [
+                    Text(
+                      "See all",
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.5),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
+                      ),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: Colors.white.withValues(alpha: 0.5),
+                      size: 16,
+                    ),
+                  ],
+                ),
               ),
-            ),
-
-            const SizedBox(width: 14)
-          ],
+            ],
+          ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
 
         BlocBuilder<MovieCubit, MovieState>(
           builder: (context, state) {
             if (state is MovieLoading) {
               return const SizedBox(
-                height: 300,
+                height: 210,
                 child: Center(
                   child: CircularProgressIndicator(color: Colors.white),
                 ),
@@ -54,7 +71,7 @@ class TrendingSection extends StatelessWidget {
             }
             if (state is MovieError) {
               return SizedBox(
-                height: 300,
+                height: 210,
                 child: Center(
                   child: Text(
                     'Xatolik: ${state.message}',
@@ -65,14 +82,15 @@ class TrendingSection extends StatelessWidget {
             }
             if (state is MovieLoaded) {
               return SizedBox(
-                height: 300,
+                height: 210,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   itemCount: state.movies.length,
                   itemBuilder: (context, index) {
+                    final movie = state.movies[index];
                     return Padding(
-                      padding: const EdgeInsets.only(right: 16),
+                      padding: const EdgeInsets.only(right: 14),
                       child: OpenContainer(
                         transitionDuration: const Duration(milliseconds: 400),
                         transitionType: ContainerTransitionType.fade,
@@ -81,20 +99,19 @@ class TrendingSection extends StatelessWidget {
                         openColor: Colors.transparent,
                         middleColor: Colors.transparent,
                         closedShape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(18),
                         ),
-
                         closedBuilder: (context, openContainer) => TrendingItem(
-                          title: state.movies[index].title,
-                          heroTag: "poster_${state.movies[index].id}",
+                          title: movie.title,
+                          heroTag: "poster_${movie.id}",
                           imageUrl:
-                              'https://image.tmdb.org/t/p/w500${state.movies[index].posterPath}',
-                          rating: state.movies[index].voteAverage,
+                              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                          rating: movie.voteAverage,
+                          year: movie.releaseDate.year,
                           onTap: openContainer,
                         ),
-
                         openBuilder: (context, closeContainer) =>
-                            MovieDetailsPage(movieId: state.movies[index].id),
+                            MovieDetailsPage(movieId: movie.id),
                       ),
                     );
                   },

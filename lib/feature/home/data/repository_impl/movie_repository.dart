@@ -4,6 +4,7 @@ import 'package:movieapp/feature/home/data/model/top_rated_response/top_rated_re
 import 'package:movieapp/feature/home/data/model/tv_series_response/tv_series_response.dart';
 
 import '../data_source/movie_data_source.dart';
+import '../model/move_response/movie_detail_response.dart';
 import '../model/move_response/movie_response.dart';
 
 class MovieRepository {
@@ -27,5 +28,9 @@ class MovieRepository {
 
   Future<SearchResponse> getSearch(String query) async{
     return await _dataSource.getSearch(query);
+  }
+
+  Future<MovieDetailResponse> getMovieDetail(int movieId) async {
+    return await _dataSource.getMovieDetail(movieId);
   }
 }

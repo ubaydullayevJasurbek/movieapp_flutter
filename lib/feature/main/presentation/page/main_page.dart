@@ -58,7 +58,7 @@ class _MainPageState extends State<MainPage> {
                 duration: const Duration(milliseconds: 400),
                 gap: 6,
                 color: Colors.white,
-                activeColor: Colors.lightGreenAccent,
+                activeColor: Colors.yellow,
                 iconSize: 22,
                 tabBackgroundColor: Colors.purpleAccent.withValues(alpha: 0.15),
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),

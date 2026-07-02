@@ -5,6 +5,7 @@ import 'package:movieapp/feature/home/data/model/search_response/search_response
 import 'package:movieapp/feature/home/data/model/top_rated_response/top_rated_response.dart';
 import 'package:movieapp/feature/home/data/model/tv_series_response/tv_series_response.dart';
 import '../../../../core/network/dio_client.dart';
+import '../model/move_response/movie_detail_response.dart';
 import '../model/move_response/movie_response.dart';
 
 class MovieDataSource {
@@ -65,6 +66,17 @@ class MovieDataSource {
     } on DioException catch (e) {
       debugPrint("DIO ERROR:${e.message}");
       throw Exception("Filmlar yuklanmadi:${e.message}");
+    }
+  }
+
+  Future<MovieDetailResponse> getMovieDetail(int movieId) async {
+    try {
+      final detailResponse = await dio.get("/3/movie/$movieId");
+      debugPrint("RESPONSE: ${detailResponse.data}");
+      return MovieDetailResponse.fromJson(detailResponse.data);
+    } on DioException catch (e) {
+      debugPrint("DIO ERROR: ${e.message}");
+      throw Exception("Film tafsilotlari yuklanmadi: ${e.message}");
     }
   }
 }

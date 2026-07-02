@@ -14,38 +14,55 @@ class TvSeriesSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                "TV Series",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: const [
+                  Icon(Icons.live_tv_rounded, color: Color(0xffFFD054), size: 20),
+                  SizedBox(width: 8),
+                  Text(
+                    "TV Series",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
               ),
-            ),
-
-            const Spacer(),
-
-            const Text(
-              "See all",
-              style: TextStyle(
-                color: Color(0xffE50914),
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
+              GestureDetector(
+                onTap: () {},
+                child: Row(
+                  children: [
+                    Text(
+                      "See all",
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.5),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
+                      ),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: Colors.white.withValues(alpha: 0.5),
+                      size: 16,
+                    ),
+                  ],
+                ),
               ),
-            ),
-
-            const SizedBox(width: 14),
-          ],
+            ],
+          ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
 
         BlocBuilder<TvSeriesCubit, TVSeriesState>(
           builder: (context, state) {
             if (state is TVSeriesLoading) {
               return const SizedBox(
-                height: 300,
+                height: 280,
                 child: Center(
                   child: CircularProgressIndicator(color: Colors.white),
                 ),
@@ -53,7 +70,7 @@ class TvSeriesSection extends StatelessWidget {
             }
             if (state is TVSeriesError) {
               return SizedBox(
-                height: 300,
+                height: 280,
                 child: Center(
                   child: Text(
                     'Xatolik: ${state.message}',
@@ -64,7 +81,7 @@ class TvSeriesSection extends StatelessWidget {
             }
             if (state is TVSeriesLoaded) {
               return SizedBox(
-                height: 300,
+                height: 280,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -81,18 +98,18 @@ class TvSeriesSection extends StatelessWidget {
                         openColor: Colors.transparent,
                         middleColor: Colors.transparent,
                         closedShape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         closedBuilder: (context, openContainer) => TvSeriesItem(
                           title: movie.name,
                           heroTag: "poster_${movie.id}",
                           imageUrl:
-                              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                          'https://image.tmdb.org/t/p/w500${movie.posterPath}',
                           rating: movie.voteAverage,
                           onTap: openContainer,
                         ),
                         openBuilder: (context, closeContainer) =>
-                            MovieDetailsPage(movieId: movie.id,),
+                            MovieDetailsPage(movieId: movie.id),
                       ),
                     );
                   },

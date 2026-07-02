@@ -155,6 +155,7 @@ class _SearchPageState extends State<SearchPage> {
                               imageUrl:
                                   'https://image.tmdb.org/t/p/w500${movie.posterPath}',
                               rating: movie.voteAverage,
+                              onTap: () {},
                             );
                           },
                         );
