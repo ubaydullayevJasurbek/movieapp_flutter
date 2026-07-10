@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:movieapp/core/router/app_router.dart';
 
 import '../../cubit/movie_cubit/movie_cubit.dart';
 import '../../cubit/movie_cubit/movie_state.dart';
@@ -23,7 +25,24 @@ class HeroBanner extends StatelessWidget {
         if (state is MovieLoaded) {
           final List<Result> movies = state.movies.take(5).toList();
 
-          return HeroSlider(movies: movies);
+          if (movies.isEmpty) {
+            return const SizedBox(
+              height: 300,
+              child: Center(
+                child: Text(
+                  'Hozircha filmlar mavjud emas',
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ),
+            );
+          }
+
+          return HeroSlider(
+            movies: movies,
+            onWatchNow: (movieId) {
+              context.push(AppRouter.details, extra: movieId);
+            },
+          );
         }
 
         if (state is MovieError) {

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/model/move_response/movie_detail_response.dart';
@@ -9,7 +10,14 @@ class HeroItem extends StatefulWidget {
   final Result movie;
   final bool isActive;
 
-  const HeroItem({super.key, required this.movie, required this.isActive});
+  final MovieRepository repository;
+
+  const HeroItem({
+    super.key,
+    required this.movie,
+    required this.isActive,
+    required this.repository,
+  });
 
   @override
   State<HeroItem> createState() => _HeroItemState();
@@ -17,8 +25,7 @@ class HeroItem extends StatefulWidget {
 
 class _HeroItemState extends State<HeroItem>
     with SingleTickerProviderStateMixin {
-  final MovieRepository _repository = MovieRepository();
-  late final Future<MovieDetailResponse> _detailFuture;
+  Future<MovieDetailResponse>? _detailFuture;
 
   late final AnimationController _kenBurnsController;
   late final Animation<double> _kenBurnsAnimation;
@@ -26,7 +33,6 @@ class _HeroItemState extends State<HeroItem>
   @override
   void initState() {
     super.initState();
-    _detailFuture = _repository.getMovieDetail(widget.movie.id);
 
     _kenBurnsController = AnimationController(
       vsync: this,
@@ -36,7 +42,17 @@ class _HeroItemState extends State<HeroItem>
       CurvedAnimation(parent: _kenBurnsController, curve: Curves.easeInOut),
     );
 
-    if (widget.isActive) _kenBurnsController.repeat(reverse: true);
+    if (widget.isActive) {
+      _kenBurnsController.repeat(reverse: true);
+      _loadDetailIfNeeded();
+    }
+  }
+
+  /// Detallarni faqat slayd birinchi marta faol bo'lganda yuklaydi.
+  /// Shu tufayli sahifa ochilganda barcha 5 ta film uchun emas,
+  /// faqat foydalanuvchi ko'radigan filmlar uchun so'rov ketadi.
+  void _loadDetailIfNeeded() {
+    _detailFuture ??= widget.repository.getMovieDetail(widget.movie.id);
   }
 
   @override
@@ -45,6 +61,7 @@ class _HeroItemState extends State<HeroItem>
 
     if (widget.isActive && !oldWidget.isActive) {
       _kenBurnsController.repeat(reverse: true);
+      _loadDetailIfNeeded();
     } else if (!widget.isActive && oldWidget.isActive) {
       _kenBurnsController.stop();
     }
@@ -77,13 +94,16 @@ class _HeroItemState extends State<HeroItem>
                 );
               },
               child: backdropUrl != null
-                  ? Image.network(
-                      backdropUrl,
+                  ? CachedNetworkImage(
+                      imageUrl: backdropUrl,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, builder) =>
-                          Container(color: Colors.black),
+                      fadeInDuration: const Duration(milliseconds: 300),
+                      placeholder: (context, url) =>
+                          const ColoredBox(color: Color(0xFF0B1527)),
+                      errorWidget: (context, url, error) =>
+                          const ColoredBox(color: Color(0xFF0B1527)),
                     )
-                  : Container(color: Colors.black),
+                  : Container(color: const Color(0xFF0B1527)),
             ),
           ),
         ),
@@ -98,7 +118,7 @@ class _HeroItemState extends State<HeroItem>
                 Colors.black.withValues(alpha: 0.55),
                 Colors.black.withValues(alpha: 0.95),
               ],
-              stops: const [0.25, 0.7, 1.0],
+              stops: const [0.15, 0.60, 1.0],
             ),
           ),
         ),
@@ -145,6 +165,8 @@ class _HeroItemState extends State<HeroItem>
                       const SizedBox(height: 14),
                       Text(
                         widget.movie.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 34,
@@ -193,7 +215,7 @@ class _HeroItemState extends State<HeroItem>
                           ),
                           const SizedBox(width: 10),
                           Text(
-                            '${widget.movie.releaseDate.year}',
+                            '${widget.movie.releaseDate?.year}',
                             style: const TextStyle(
                               color: Colors.white70,
                               fontSize: 13,
