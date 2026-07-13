@@ -28,7 +28,7 @@ class Result {
   @JsonKey(name: "adult")
   final bool adult;
   @JsonKey(name: "backdrop_path")
-  final String backdropPath;
+  final String? backdropPath;
   @JsonKey(name: "genre_ids")
   final List<int> genreIds;
   @JsonKey(name: "id")
@@ -42,7 +42,7 @@ class Result {
   @JsonKey(name: "popularity")
   final double popularity;
   @JsonKey(name: "poster_path")
-  final String posterPath;
+  final String? posterPath;
   @JsonKey(name: "release_date")
   final String releaseDate;
   @JsonKey(name: "title")

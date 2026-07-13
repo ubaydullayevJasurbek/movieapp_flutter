@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:movieapp/feature/home/data/model/now_playing_response/now_playing_response.dart';
-import 'package:movieapp/feature/home/data/model/search_response/search_response.dart';
+import 'package:movieapp/feature/search/data/models/search_response/search_response.dart';
 import 'package:movieapp/feature/home/data/model/top_rated_response/top_rated_response.dart';
 import 'package:movieapp/feature/home/data/model/tv_series_response/tv_series_response.dart';
 import '../../../../core/network/dio_client.dart';
@@ -56,11 +56,11 @@ class MovieDataSource {
     }
   }
 
-  Future<SearchResponse> getSearch(String query) async {
+  Future<SearchResponse> getSearch(String query, {int page = 1}) async {
     try {
       final searchResponse = await dio.get(
         "/3/search/movie",
-        queryParameters: {'query': query},
+        queryParameters: {'query': query, 'page': page},
       );
       debugPrint("RESPONSE:${searchResponse.data}");
       return SearchResponse.fromJson(searchResponse.data);

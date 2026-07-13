@@ -12,12 +12,16 @@ class HeroSlider extends StatefulWidget {
 
   final Future<void> Function(int)? onWatchNow;
 
+  /// Switches the bottom navigation to the Search tab. No route is pushed.
+  final VoidCallback? onSearchTap;
+
   final MovieRepository? repository;
 
   const HeroSlider({
     super.key,
     required this.movies,
     this.onWatchNow,
+    this.onSearchTap,
     this.repository,
   });
 
@@ -154,7 +158,13 @@ class _HeroSliderState extends State<HeroSlider> {
                   ),
                   Row(
                     children: [
-                      _glassIcon(Icons.search, semanticLabel: 'Qidiruv'),
+                      GestureDetector(
+                        onTap: widget.onSearchTap,
+                        child: _glassIcon(
+                          Icons.search,
+                          semanticLabel: 'Qidiruv',
+                        ),
+                      ),
                       const SizedBox(width: 10),
                       _glassIcon(
                         Icons.notifications_none,

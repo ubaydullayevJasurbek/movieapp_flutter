@@ -10,7 +10,10 @@ import '../youtube_triller/trailer_page.dart';
 import 'hero_slider.dart';
 
 class HeroBanner extends StatelessWidget {
-  const HeroBanner({super.key});
+  const HeroBanner({super.key, this.onSearchTap});
+
+  /// Forwarded to the slider's search icon so it opens the Search tab.
+  final VoidCallback? onSearchTap;
 
   Future<void> _openTrailer(BuildContext context, int movieId) async {
     try {
@@ -101,6 +104,7 @@ class HeroBanner extends StatelessWidget {
           return HeroSlider(
             movies: movies,
             onWatchNow: (movieId) => _openTrailer(context, movieId),
+            onSearchTap: onSearchTap,
           );
         }
 

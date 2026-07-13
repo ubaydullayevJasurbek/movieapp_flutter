@@ -13,7 +13,11 @@ import '../widget/section/trending_section.dart';
 import '../widget/section/tv_series_section.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, this.onSearchTap});
+
+  /// Switches the [MainPage] bottom navigation to the Search tab. Wired to the
+  /// search affordances on Home so they act as shortcuts (no route is pushed).
+  final VoidCallback? onSearchTap;
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +44,17 @@ class HomePage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  HeroBanner(),
-                  SizedBox(height: 20),
-                  TrendingSection(),
-                  SizedBox(height: 20),
-                  TopMoviesSection(),
-                  SizedBox(height: 12),
-                  TvSeriesSection(),
-                  SizedBox(height: 12),
-                  NowPlayingSection(),
-                  SizedBox(height: 100),
+                children: [
+                  HeroBanner(onSearchTap: onSearchTap),
+                  const SizedBox(height: 20),
+                  const TrendingSection(),
+                  const SizedBox(height: 20),
+                  const TopMoviesSection(),
+                  const SizedBox(height: 12),
+                  const TvSeriesSection(),
+                  const SizedBox(height: 12),
+                  const NowPlayingSection(),
+                  const SizedBox(height: 100),
                 ],
               ),
             ),
