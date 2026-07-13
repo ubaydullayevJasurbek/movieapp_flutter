@@ -7,47 +7,64 @@ import '../../cubit/now_playing_cubit/now_playing_cubit.dart';
 import '../../cubit/now_playing_cubit/now_playing_state.dart';
 import '../item/now_playing_item.dart';
 
-class NowPlayingSection extends StatelessWidget{
+class NowPlayingSection extends StatelessWidget {
   const NowPlayingSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    return   Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                "Now Playing",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+            Row(
+              children: const [
+                Icon(
+                  Icons.access_time_outlined,
+                  color: Color(0xffFFD054),
+                  size: 20,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  "Recommended For You",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+            GestureDetector(
+              onTap: () {},
+              child: Row(
+                children: [
+                  Text(
+                    "See all",
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.5),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13,
+                    ),
+                  ),
+                  Icon(
+                    Icons.chevron_right,
+                    color: Colors.white.withValues(alpha: 0.5),
+                    size: 16,
+                  ),
+                ],
               ),
             ),
-
-            const Spacer(),
-
-            const Text(
-              "See all",
-              style: TextStyle(
-                color: Color(0xffE50914),
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
-            ),
-            const SizedBox(width: 14),
           ],
         ),
         const SizedBox(height: 12),
-
 
         BlocBuilder<NowPlayingCubit, NowPlayingState>(
           builder: (context, state) {
             if (state is NowPlayingLoading) {
               return const SizedBox(
-                height: 300,
+                height: 210,
                 child: Center(
                   child: CircularProgressIndicator(color: Colors.white),
                 ),
@@ -55,7 +72,7 @@ class NowPlayingSection extends StatelessWidget{
             }
             if (state is NowPlayingError) {
               return SizedBox(
-                height: 300,
+                height: 210,
                 child: Center(
                   child: Text(
                     'Xatolik: ${state.message}',
@@ -65,38 +82,34 @@ class NowPlayingSection extends StatelessWidget{
               );
             }
             if (state is NowPlayingLoaded) {
-              return  Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: List.generate(
-                    state.movies.length,
-                        (index) {
-                      final movie = state.movies[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: OpenContainer(
-                          transitionDuration: const Duration(milliseconds: 400),
-                          transitionType: ContainerTransitionType.fade,
-                          closedElevation: 0,
-                          closedColor: Colors.transparent,
-                          openColor: Colors.transparent,
-                          middleColor: Colors.transparent,
-                          closedShape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          closedBuilder: (context, openContainer) => NowPlayingItem(
-                            title: movie.title,
-                            imageUrl: 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                            overview: movie.overview,
-                            onTap: openContainer,
-                          ),
-                          openBuilder: (context, closeContainer) => MovieDetailsPage(
-                            movieId: movie.id,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+              return SizedBox(
+                height: 285,
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.movies.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 16),
+                  itemBuilder: (context, index) {
+                    final movie = state.movies[index];
+
+                    return OpenContainer(
+                      closedElevation: 0,
+                      openElevation: 0,
+                      closedColor: Colors.transparent,
+                      openColor: const Color(0xff0B1527),
+                      transitionType: ContainerTransitionType.fadeThrough,
+                      closedBuilder: (_, openContainer) => NowPlayingItem(
+                        title: movie.title,
+                        imageUrl:
+                            "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+                        rating: movie.voteAverage,
+                        year: movie.releaseDate.year.toString(),
+                        onTap: openContainer,
+                      ),
+                      openBuilder: (_, __) =>
+                          MovieDetailsPage(movieId: movie.id),
+                    );
+                  },
                 ),
               );
             }

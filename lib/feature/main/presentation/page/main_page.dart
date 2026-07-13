@@ -2,8 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 import 'package:movieapp/feature/category/category_page.dart';
-import 'package:movieapp/feature/favourite/favourite_page.dart';
+import 'package:movieapp/feature/favourite/presentation/page/favourite_page.dart';
 import 'package:movieapp/feature/home/presentation/page/home_page.dart';
 import 'package:movieapp/feature/profile/profile_page.dart';
 
@@ -17,10 +18,10 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentScreen = 0;
 
-  final List<Widget> screens = [
+  late final List<Widget> screens = [
     HomePage(),
+    FavouritePage(onBrowse: () => setState(() => _currentScreen = 0)),
     CategoryPage(),
-    FavouritePage(),
     ProfilePage(),
   ];
 
@@ -57,10 +58,10 @@ class _MainPageState extends State<MainPage> {
                 curve: Curves.easeOutExpo,
                 duration: const Duration(milliseconds: 400),
                 gap: 6,
-                color: Colors.white,
-                activeColor: Colors.yellow,
+                color: AppColors.textSecondary,
+                activeColor: AppColors.primary,
                 iconSize: 22,
-                tabBackgroundColor: Colors.purpleAccent.withValues(alpha: 0.15),
+                tabBackgroundColor: AppColors.primary.withValues(alpha: 0.15),
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 onTabChange: (index) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 class ActionButton extends StatelessWidget {
   const ActionButton({super.key});
@@ -13,7 +14,7 @@ class ActionButton extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xffE50914),
+                backgroundColor: AppColors.danger,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18),
                 ),
@@ -34,8 +35,6 @@ class ActionButton extends StatelessWidget {
         ),
 
         const SizedBox(width: 14),
-        _icon(Icons.favorite_border),
-        const SizedBox(width: 12),
         _icon(Icons.add),
       ],
     );

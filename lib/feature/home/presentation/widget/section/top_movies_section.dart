@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../details/presentation/pages/movie_details_page.dart';
-import '../../../data/model/now_playing_response/now_playing_response.dart';
+import '../../../data/model/top_rated_response/top_rated_response.dart';
 import '../../cubit/top_rated_cubit/top_rated_cubit.dart';
 import '../../cubit/top_rated_cubit/top_rated_state.dart';
 import '../item/top_rated_slider.dart';
@@ -116,7 +116,7 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                     ),
                     items: state.movies.map((movie) {
                       return OpenContainer(
-                        transitionDuration: const Duration(milliseconds: 400),
+                        transitionDuration: const Duration(seconds: 1),
                         transitionType: ContainerTransitionType.fade,
                         closedElevation: 0,
                         closedColor: Colors.transparent,

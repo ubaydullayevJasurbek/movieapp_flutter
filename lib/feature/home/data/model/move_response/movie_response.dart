@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 part 'movie_response.g.dart';
 
 @JsonSerializable()
@@ -22,7 +23,8 @@ class MovieResponse {
     required this.totalResults,
   });
 
-  factory MovieResponse.fromJson(Map<String, dynamic> json) => _$MovieResponseFromJson(json);
+  factory MovieResponse.fromJson(Map<String, dynamic> json) =>
+      _$MovieResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$MovieResponseToJson(this);
 }
@@ -34,10 +36,7 @@ class Dates {
   @JsonKey(name: "minimum")
   final DateTime minimum;
 
-  Dates({
-    required this.maximum,
-    required this.minimum,
-  });
+  Dates({required this.maximum, required this.minimum});
 
   factory Dates.fromJson(Map<String, dynamic> json) => _$DatesFromJson(json);
 
@@ -63,9 +62,9 @@ class Result {
   @JsonKey(name: "popularity")
   final double popularity;
   @JsonKey(name: "poster_path")
-  final String posterPath;
+  final String? posterPath;
   @JsonKey(name: "release_date")
-  final DateTime releaseDate;
+  final DateTime? releaseDate;
   @JsonKey(name: "title")
   final String title;
   @JsonKey(name: "video")
@@ -94,7 +93,22 @@ class Result {
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
 
+  factory Result.fake({int id=0}) => Result(
+    adult: false,
+    backdropPath: '',
+    genreIds: const [],
+    id: id,
+    originalLanguage: 'en',
+    originalTitle: '',
+    overview: '',
+    popularity: 0,
+    posterPath: '',
+    releaseDate: DateTime(2024, 1, 1),
+    title: 'Movie title',
+    video: false,
+    voteAverage: 8.5,
+    voteCount: 0,
+  );
+
   Map<String, dynamic> toJson() => _$ResultToJson(this);
 }
-
-

@@ -21,7 +21,11 @@ class TvSeriesSection extends StatelessWidget {
             children: [
               Row(
                 children: const [
-                  Icon(Icons.live_tv_rounded, color: Color(0xffFFD054), size: 20),
+                  Icon(
+                    Icons.live_tv_rounded,
+                    color: Color(0xffFFD054),
+                    size: 20,
+                  ),
                   SizedBox(width: 8),
                   Text(
                     "TV Series",
@@ -62,7 +66,7 @@ class TvSeriesSection extends StatelessWidget {
           builder: (context, state) {
             if (state is TVSeriesLoading) {
               return const SizedBox(
-                height: 280,
+                height: 210,
                 child: Center(
                   child: CircularProgressIndicator(color: Colors.white),
                 ),
@@ -70,7 +74,7 @@ class TvSeriesSection extends StatelessWidget {
             }
             if (state is TVSeriesError) {
               return SizedBox(
-                height: 280,
+                height: 210,
                 child: Center(
                   child: Text(
                     'Xatolik: ${state.message}',
@@ -104,8 +108,9 @@ class TvSeriesSection extends StatelessWidget {
                           title: movie.name,
                           heroTag: "poster_${movie.id}",
                           imageUrl:
-                          'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
                           rating: movie.voteAverage,
+                          year: '${movie.firstAirDate.year}',
                           onTap: openContainer,
                         ),
                         openBuilder: (context, closeContainer) =>

@@ -10,7 +10,7 @@ import 'hero_item.dart';
 class HeroSlider extends StatefulWidget {
   final List<Result> movies;
 
-  final ValueChanged<int>? onWatchNow;
+  final Future<void> Function(int)? onWatchNow;
 
   final MovieRepository? repository;
 
@@ -29,6 +29,7 @@ class _HeroSliderState extends State<HeroSlider> {
   Timer? _autoplayTimer;
   int currentIndex = 0;
   bool isMuted = true;
+  bool _watchLoading = false;
   late final MovieRepository _repository;
 
   static const _autoplayDuration = Duration(seconds: 5);
@@ -193,15 +194,35 @@ class _HeroSliderState extends State<HeroSlider> {
                       ],
                     ),
                     child: ElevatedButton.icon(
-                      onPressed: () {
-                        final movieId = widget.movies[currentIndex].id;
-                        if (widget.onWatchNow != null) {
-                          widget.onWatchNow!(movieId);
-                        } else {
-                          debugPrint('Watch Now bosildi, movieId: $movieId');
-                        }
-                      },
-                      icon: const Icon(Icons.play_arrow, color: Colors.black),
+                      onPressed: _watchLoading
+                          ? null
+                          : () async {
+                              final movieId = widget.movies[currentIndex].id;
+                              if (widget.onWatchNow == null) {
+                                debugPrint(
+                                  'Watch Now bosildi, movieId: $movieId',
+                                );
+                                return;
+                              }
+                              setState(() => _watchLoading = true);
+                              try {
+                                await widget.onWatchNow!(movieId);
+                              } finally {
+                                if (mounted) {
+                                  setState(() => _watchLoading = false);
+                                }
+                              }
+                            },
+                      icon: _watchLoading
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.black,
+                              ),
+                            )
+                          : const Icon(Icons.play_arrow, color: Colors.black),
                       label: const Text(
                         'Watch Now',
                         style: TextStyle(

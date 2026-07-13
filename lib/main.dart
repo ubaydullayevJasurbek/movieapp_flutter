@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:movieapp/feature/favourite/favourite_injection.dart';
 import 'package:movieapp/feature/home/data/data_source/movie_data_source.dart';
 
 import 'core/router/app_router.dart';
+import 'core/theme/app_theme.dart';
 
 void main()  async{
-  await dotenv.load(fileName:  ".env");
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName:  ".env");
+  await setupFavourites();
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -29,6 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      theme: AppTheme.dark,
       routerConfig: AppRouter.goRouter,
     );
   }

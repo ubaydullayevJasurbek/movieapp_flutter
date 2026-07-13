@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 class CastTitle extends StatelessWidget {
   const CastTitle({super.key});
@@ -22,7 +23,7 @@ class CastTitle extends StatelessWidget {
         const Text(
           "See all",
           style: TextStyle(
-            color: Color(0xffE50914),
+            color: AppColors.danger,
             fontWeight: FontWeight.bold,
             fontSize: 12,
           ),

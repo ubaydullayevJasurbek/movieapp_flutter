@@ -17,6 +17,7 @@ dependencies:
   build_runner: ^2.15.0
   dio: ^5.9.2
   flutter_dotenv: ^6.0.1
+  bloc: ^8.1.0
   flutter_bloc: ^8.1.5
   google_nav_bar: ^5.0.7
   carousel_slider: ^5.1.2
@@ -28,17 +29,32 @@ dependencies:
   fpdart: ^1.2.0
   equatable: ^2.0.8
   cached_network_image: ^3.4.1
-
+  flutter_launcher_icons: ^0.14.4
+  readmore: ^3.0.0
+  skeletonizer: ^2.1.0
+  youtube_player_flutter: ^9.1.1
+  isar_community: ^3.3.2
+  isar_community_flutter_libs: ^3.3.2
+  path_provider: ^2.1.4
 dev_dependencies:
   flutter_test: { sdk: flutter }
   flutter_lints: ^6.0.0
-  flutter_native_splash: ^2.4.0
+  flutter_native_splash: ^2.4.7
+  isar_community_generator: ^3.3.2
 
-flutter_native_splash:
-  color: "#0d0d0d"
-  image: assets/images/logo.png
+flutter_launcher_icons:
   android: true
   ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icons/logo.png"
+  min_sdk_android: 21
+
+flutter_native_splash:
+  color: "#263238"
+  image: assets/icons/logo.png
+  android_12:
+    color: "#263238"
+    image: assets/icons/logo.png
 
 flutter:
   uses-material-design: true

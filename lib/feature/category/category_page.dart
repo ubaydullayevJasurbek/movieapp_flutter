@@ -11,7 +11,6 @@ class _CategoryState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF0F172A),
       body: Center(
         child: Text(
           "Favorite Page",

@@ -6,6 +6,7 @@ import 'package:movieapp/feature/home/data/model/tv_series_response/tv_series_re
 import '../data_source/movie_data_source.dart';
 import '../model/move_response/movie_detail_response.dart';
 import '../model/move_response/movie_response.dart';
+import '../model/videos_response/videos_response.dart';
 
 class MovieRepository {
   final MovieDataSource _dataSource = MovieDataSource();
@@ -32,5 +33,9 @@ class MovieRepository {
 
   Future<MovieDetailResponse> getMovieDetail(int movieId) async {
     return await _dataSource.getMovieDetail(movieId);
+  }
+
+  Future<VideosResponse> getVideos(int movieId) async {
+    return await _dataSource.getVideos(movieId);
   }
 }

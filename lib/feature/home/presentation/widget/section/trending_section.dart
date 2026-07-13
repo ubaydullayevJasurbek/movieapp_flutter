@@ -2,7 +2,9 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/feature/details/presentation/pages/movie_details_page.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../data/model/move_response/movie_response.dart';
 import '../../cubit/movie_cubit/movie_cubit.dart';
 import '../../cubit/movie_cubit/movie_state.dart';
 import '../item/trending_item.dart';
@@ -61,14 +63,6 @@ class TrendingSection extends StatelessWidget {
 
         BlocBuilder<MovieCubit, MovieState>(
           builder: (context, state) {
-            if (state is MovieLoading) {
-              return const SizedBox(
-                height: 210,
-                child: Center(
-                  child: CircularProgressIndicator(color: Colors.white),
-                ),
-              );
-            }
             if (state is MovieError) {
               return SizedBox(
                 height: 210,
@@ -80,48 +74,75 @@ class TrendingSection extends StatelessWidget {
                 ),
               );
             }
-            if (state is MovieLoaded) {
-              return SizedBox(
-                height: 210,
+
+            final isLoading = state is! MovieLoaded;
+            final movies = state is MovieLoaded ? state.movies : _fakeMovies;
+
+            return Skeletonizer(
+              enabled: isLoading,
+              effect: const ShimmerEffect(
+                baseColor: Color(0xffE0E0E0),
+                highlightColor: Color(0xffF5F5F5),
+                duration: Duration(milliseconds: 1500),
+              ),
+              child: SizedBox(
+                height: 280,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  itemCount: state.movies.length,
+                  itemCount: movies.length,
                   itemBuilder: (context, index) {
-                    final movie = state.movies[index];
+                    final movie = movies[index];
                     return Padding(
                       padding: const EdgeInsets.only(right: 14),
-                      child: OpenContainer(
-                        transitionDuration: const Duration(milliseconds: 400),
-                        transitionType: ContainerTransitionType.fade,
-                        closedElevation: 0,
-                        closedColor: Colors.transparent,
-                        openColor: Colors.transparent,
-                        middleColor: Colors.transparent,
-                        closedShape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        closedBuilder: (context, openContainer) => TrendingItem(
-                          title: movie.title,
-                          heroTag: "poster_${movie.id}",
-                          imageUrl:
-                              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                          rating: movie.voteAverage,
-                          year: movie.releaseDate.year,
-                          onTap: openContainer,
-                        ),
-                        openBuilder: (context, closeContainer) =>
-                            MovieDetailsPage(movieId: movie.id),
-                      ),
+                      child: isLoading
+                          // loading paytida OpenContainer shart emas — sodda item
+                          ? TrendingItem(
+                              title: movie.title,
+                              heroTag: "poster_${movie.id}",
+                              imageUrl:
+                                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                              rating: movie.voteAverage,
+                              year: movie.releaseDate?.year,
+                              onTap: () {},
+                              showHero: false,
+                            )
+                          : OpenContainer(
+                              transitionDuration: const Duration(
+                                milliseconds: 400,
+                              ),
+                              transitionType: ContainerTransitionType.fade,
+                              closedElevation: 0,
+                              closedColor: Colors.transparent,
+                              openColor: Colors.transparent,
+                              middleColor: Colors.transparent,
+                              closedShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              closedBuilder: (context, openContainer) =>
+                                  TrendingItem(
+                                    title: movie.title,
+                                    heroTag: "poster_${movie.id}",
+                                    imageUrl:
+                                        'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                                    rating: movie.voteAverage,
+                                    year: movie.releaseDate?.year,
+                                    onTap: openContainer,
+                                    showHero: false,
+                                  ),
+                              openBuilder: (context, closeContainer) =>
+                                  MovieDetailsPage(movieId: movie.id),
+                            ),
                     );
                   },
                 ),
-              );
-            }
-            return const SizedBox.shrink();
+              ),
+            );
           },
         ),
       ],
     );
   }
 }
+
+final _fakeMovies = List.generate(6, (index) => Result.fake(id: index));

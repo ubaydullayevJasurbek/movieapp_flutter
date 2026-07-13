@@ -6,6 +6,7 @@ import 'package:movieapp/feature/details/presentation/widget/components/action_b
 import 'package:movieapp/feature/details/presentation/widget/components/cast_title.dart';
 import 'package:movieapp/feature/details/presentation/widget/components/tagline_section.dart';
 import 'package:movieapp/feature/details/presentation/widget/movie_poster.dart';
+import 'package:readmore/readmore.dart';
 
 import '../cubit/details_cubit.dart';
 import '../cubit/details_state.dart';
@@ -63,12 +64,24 @@ class MovieInfoCard extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  Text(
+                  ReadMoreText(
                     movie.overview,
+                    trimLines: 3,
+                    trimMode: TrimMode.Line,
+                    trimCollapsedText: 'Read more',
+                    trimExpandedText: 'Show less',
                     style: const TextStyle(
                       color: Colors.white70,
                       height: 1.6,
                       fontSize: 15,
+                    ),
+                    moreStyle: const TextStyle(
+                      color: Colors.amber,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    lessStyle: const TextStyle(
+                      color: Colors.amber,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
 

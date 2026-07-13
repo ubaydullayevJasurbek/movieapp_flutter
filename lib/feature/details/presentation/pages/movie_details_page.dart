@@ -5,6 +5,8 @@ import 'package:movieapp/feature/details/presentation/cubit/details_cubit.dart';
 import 'package:movieapp/feature/details/presentation/cubit/details_state.dart';
 import 'package:movieapp/feature/details/presentation/widget/detail_header.dart';
 import 'package:movieapp/feature/details/presentation/widget/movi_card.dart';
+import 'package:movieapp/feature/favourite/domain/entities/favourite_movie.dart';
+import 'package:movieapp/feature/favourite/presentation/cubit/favourites_cubit.dart';
 import 'package:share_plus/share_plus.dart';
 
 class MovieDetailsPage extends StatelessWidget {
@@ -18,9 +20,9 @@ class MovieDetailsPage extends StatelessWidget {
       create: (_) => Injection.detailsCubit..loadMovieDetail(movieId),
 
       child: Scaffold(
-        backgroundColor: const Color(0xff08111F),
-        body: SafeArea(
-          child: BlocBuilder<DetailsCubit, DetailsState>(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Colors.black,
+        body:  BlocBuilder<DetailsCubit, DetailsState>(
             builder: (context, state) {
               if (state is DetailsLoading || state is DetailsInitial) {
                 return const Center(child: CircularProgressIndicator());
@@ -43,21 +45,36 @@ class MovieDetailsPage extends StatelessWidget {
                     clipBehavior: Clip.none,
                     children: [
                       /// HEADER
-                      DetailHeader(
-                        backdropUrl: movie.backdropPath != null
-                            ? "https://image.tmdb.org/t/p/original${movie.backdropPath}"
-                            : null,
-                        onBack: () => Navigator.pop(context),
-                        onBookmark: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Bookmarkga qo'shildi!!!"),
-                            ),
-                          );
-                        },
-                        onShare: () {
-                          Share.share(
-                            "Ushbu filmni tomosha qiling: ${movie.title}",
+                      BlocBuilder<FavouritesCubit, FavouritesState>(
+                        bloc: FavouritesCubit.instance,
+                        builder: (context, _) {
+                          final saved =
+                              FavouritesCubit.instance.contains(movie.id);
+                          return DetailHeader(
+                            backdropUrl: movie.backdropPath != null
+                                ? "https://image.tmdb.org/t/p/original${movie.backdropPath}"
+                                : null,
+                            isSaved: saved,
+                            onBack: () => Navigator.pop(context),
+                            onBookmark: () {
+                              FavouritesCubit.instance
+                                  .toggle(FavouriteMovie.fromDetail(movie));
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(
+                                  SnackBar(
+                                    behavior: SnackBarBehavior.floating,
+                                    content: Text(saved
+                                        ? 'Removed from favourites'
+                                        : 'Added to favourites'),
+                                  ),
+                                );
+                            },
+                            onShare: () {
+                              Share.share(
+                                "Ushbu filmni tomosha qiling: ${movie.title}",
+                              );
+                            },
                           );
                         },
                       ),
@@ -75,7 +92,6 @@ class MovieDetailsPage extends StatelessWidget {
             },
           ),
         ),
-      ),
     );
   }
 }

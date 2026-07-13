@@ -31,25 +31,30 @@ class HomePage extends StatelessWidget {
           BlocProvider(create: (_) => TvSeriesCubit()..getTVSeries()),
         ],
         child: Scaffold(
-          backgroundColor: const Color(0xFF0B1527),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-
-                HeroBanner(),
-                SizedBox(height: 20),
-                TrendingSection(),
-                SizedBox(height: 20),
-                TopMoviesSection(),
-                SizedBox(height: 12),
-                TvSeriesSection(),
-                SizedBox(height: 12),
-                NowPlayingSection(),
-                SizedBox(height: 100),
-              ],
+          backgroundColor: Colors.black,
+          body: ScrollConfiguration(
+            behavior: const MaterialScrollBehavior().copyWith(
+              scrollbars: false,
+              overscroll: false,
             ),
-          ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  HeroBanner(),
+                  SizedBox(height: 20),
+                  TrendingSection(),
+                  SizedBox(height: 20),
+                  TopMoviesSection(),
+                  SizedBox(height: 12),
+                  TvSeriesSection(),
+                  SizedBox(height: 12),
+                  NowPlayingSection(),
+                  SizedBox(height: 100),
+                ],
+              ),
+            ),
+          )
         ),
       ),
     );

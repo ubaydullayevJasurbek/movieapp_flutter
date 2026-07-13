@@ -1,15 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:movieapp/core/router/app_router.dart';
 
 import '../../cubit/movie_cubit/movie_cubit.dart';
 import '../../cubit/movie_cubit/movie_state.dart';
 import '../../../data/model/move_response/movie_response.dart';
+import '../../../data/model/videos_response/videos_response.dart';
+import '../../../data/repository_impl/movie_repository.dart';
+import '../youtube_triller/trailer_page.dart';
 import 'hero_slider.dart';
 
 class HeroBanner extends StatelessWidget {
   const HeroBanner({super.key});
+
+  Future<void> _openTrailer(BuildContext context, int movieId) async {
+    try {
+      final videos = await MovieRepository().getVideos(movieId);
+      final trailer = _pickTrailer(videos.results);
+
+      if (!context.mounted) return;
+
+      if (trailer == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Treyler topilmadi')),
+        );
+        return;
+      }
+
+      Navigator.of(context).push(
+        _trailerRoute('https://www.youtube.com/watch?v=${trailer.key}'),
+      );
+    } catch (_) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Treyler yuklanmadi')),
+      );
+    }
+  }
+
+  /// Treylerni ochishda silliq fade + kattalashish animatsiyasi.
+  Route<void> _trailerRoute(String videoUrl) {
+    return PageRouteBuilder<void>(
+      opaque: false,
+      transitionDuration: const Duration(milliseconds: 450),
+      reverseTransitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (_, _, _) => TrailerPage(videoUrl: videoUrl),
+      transitionsBuilder: (_, animation, _, child) {
+        final curved = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOutCubic,
+          reverseCurve: Curves.easeInCubic,
+        );
+        return FadeTransition(
+          opacity: curved,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(curved),
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
+  /// YouTube treylerini tanlaydi: avval "Trailer" turini, bo'lmasa
+  /// birinchi YouTube videosini qaytaradi.
+  VideosResult? _pickTrailer(List<VideosResult> results) {
+    final youtube = results.where((v) => v.site == 'YouTube').toList();
+    if (youtube.isEmpty) return null;
+    return youtube.firstWhere(
+      (v) => v.type == 'Trailer',
+      orElse: () => youtube.first,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +100,7 @@ class HeroBanner extends StatelessWidget {
 
           return HeroSlider(
             movies: movies,
-            onWatchNow: (movieId) {
-              context.push(AppRouter.details, extra: movieId);
-            },
+            onWatchNow: (movieId) => _openTrailer(context, movieId),
           );
         }
 

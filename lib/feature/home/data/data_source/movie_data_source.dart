@@ -7,6 +7,7 @@ import 'package:movieapp/feature/home/data/model/tv_series_response/tv_series_re
 import '../../../../core/network/dio_client.dart';
 import '../model/move_response/movie_detail_response.dart';
 import '../model/move_response/movie_response.dart';
+import '../model/videos_response/videos_response.dart';
 
 class MovieDataSource {
   final Dio dio = DioClient.instance;
@@ -78,5 +79,10 @@ class MovieDataSource {
       debugPrint("DIO ERROR: ${e.message}");
       throw Exception("Film tafsilotlari yuklanmadi: ${e.message}");
     }
+  }
+
+  Future<VideosResponse> getVideos(int movieId) async {
+    final response = await dio.get('/3/movie/$movieId/videos');
+    return VideosResponse.fromJson(response.data);
   }
 }

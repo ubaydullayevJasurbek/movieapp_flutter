@@ -1,106 +1,121 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class NowPlayingItem extends StatelessWidget {
   final String title;
   final String imageUrl;
-  final String overview;
+  final double rating;
+  final String year;
   final VoidCallback onTap;
 
   const NowPlayingItem({
     super.key,
     required this.title,
     required this.imageUrl,
-    required this.overview,
+    required this.rating,
+    required this.year,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
+      borderRadius: BorderRadius.circular(24),
       onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 4),
-        decoration: BoxDecoration(
-          color: const Color(0xFF1E293B),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.deepPurple.withValues(alpha: 0.3),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Row(
+      child: SizedBox(
+        width: 140,
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Rasm
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                bottomLeft: Radius.circular(16),
-              ),
-              child: Image.network(
-                imageUrl,
-                width: 110,
-                height: 160,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  width: 110,
-                  height: 160,
-                  color: const Color(0xFF334155),
-                  child: const Icon(
-                    Icons.movie,
-                    color: Colors.white38,
-                    size: 40,
-                  ),
-                ),
-              ),
-            ),
-
-            // Matn qismi
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            Hero(
+              tag: imageUrl,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Stack(
                   children: [
-                    // Kino nomi
-                    Text(
-                      title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        height: 1.3,
-                      ),
+                    CachedNetworkImage(
+                     imageUrl:  imageUrl,
+                      width: 140,
+                      height: 210,
+                      fit: BoxFit.cover,
                     ),
-                    const SizedBox(height: 8),
 
-                    // Ajratgich
-                    Container(
-                      height: 1,
-                      width: 40,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    const SizedBox(height: 8),
-
-                    // Overview
-                    Text(
-                      overview,
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF94A3B8),
-                        fontSize: 12,
-                        height: 1.5,
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.25),
+                              Colors.black.withValues(alpha: 0.75),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
+            ),
+
+            const SizedBox(height: 12),
+
+            Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+
+            const SizedBox(height: 6),
+
+            Row(
+              children: [
+                const Icon(
+                  Icons.star_rounded,
+                  size: 16,
+                  color: Color(0xffF6C344),
+                ),
+
+                const SizedBox(width: 4),
+
+                Text(
+                  rating.toStringAsFixed(1),
+                  style: const TextStyle(
+                    color: Color(0xffF6C344),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                  ),
+                ),
+
+                const SizedBox(width: 6),
+
+                Container(
+                  width: 4,
+                  height: 4,
+                  decoration: const BoxDecoration(
+                    color: Colors.white38,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+
+                const SizedBox(width: 6),
+
+                Text(
+                  year,
+                  style: const TextStyle(
+                    color: Colors.white54,
+                    fontSize: 15,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
