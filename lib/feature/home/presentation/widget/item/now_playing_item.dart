@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 class NowPlayingItem extends StatelessWidget {
   final String title;
@@ -67,8 +68,8 @@ class NowPlayingItem extends StatelessWidget {
               title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: AppColors.textPrimary,
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
@@ -78,18 +79,18 @@ class NowPlayingItem extends StatelessWidget {
 
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.star_rounded,
                   size: 16,
-                  color: Color(0xffF6C344),
+                  color: AppColors.rating,
                 ),
 
                 const SizedBox(width: 4),
 
                 Text(
                   rating.toStringAsFixed(1),
-                  style: const TextStyle(
-                    color: Color(0xffF6C344),
+                  style: TextStyle(
+                    color: AppColors.rating,
                     fontWeight: FontWeight.w700,
                     fontSize: 15,
                   ),
@@ -100,8 +101,8 @@ class NowPlayingItem extends StatelessWidget {
                 Container(
                   width: 4,
                   height: 4,
-                  decoration: const BoxDecoration(
-                    color: Colors.white38,
+                  decoration: BoxDecoration(
+                    color: AppColors.textFaint,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -110,8 +111,8 @@ class NowPlayingItem extends StatelessWidget {
 
                 Text(
                   year,
-                  style: const TextStyle(
-                    color: Colors.white54,
+                  style: TextStyle(
+                    color: AppColors.textMuted,
                     fontSize: 15,
                   ),
                 ),

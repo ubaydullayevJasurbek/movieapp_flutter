@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:movieapp/core/theme/app_colors.dart';
+import 'package:movieapp/core/theme/theme_cubit.dart';
 import '../../domain/entities/favourite_movie.dart';
 import '../../domain/entities/favourite_query.dart';
 import '../../domain/usecases/filter_favourites.dart';
@@ -18,7 +19,7 @@ import '../widget/states/favourites_loading_state.dart';
 import '../widget/states/favourites_no_matches_state.dart';
 import '../widget/toolbar/favourites_toolbar.dart';
 
-const _kBg = AppColors.background;
+Color get _kBg => AppColors.background;
 const _kAccent = AppColors.primary;
 
 class FavouritePage extends StatefulWidget {
@@ -56,7 +57,7 @@ class _FavouriteState extends State<FavouritePage> {
           behavior: SnackBarBehavior.floating,
           backgroundColor: AppColors.surface,
           content: Text('Removed "${movie.title}"',
-              style: const TextStyle(color: Colors.white)),
+              style: TextStyle(color: AppColors.textPrimary)),
           action: SnackBarAction(
             label: 'Undo',
             textColor: _kAccent,
@@ -72,6 +73,9 @@ class _FavouriteState extends State<FavouritePage> {
 
   @override
   Widget build(BuildContext context) {
+    // Rebuild in place on theme changes so the AppColors tokens re-resolve.
+    context.watch<ThemeCubit>();
+
     return Scaffold(
       backgroundColor: _kBg,
       resizeToAvoidBottomInset: true,

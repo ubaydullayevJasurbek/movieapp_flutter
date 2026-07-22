@@ -1,13 +1,14 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 import 'package:movieapp/feature/details/presentation/pages/movie_details_page.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../data/model/move_response/movie_response.dart';
 import '../../cubit/movie_cubit/movie_cubit.dart';
 import '../../cubit/movie_cubit/movie_state.dart';
 import '../item/trending_item.dart';
+import 'section_skeleton.dart';
 
 class TrendingSection extends StatelessWidget {
   const TrendingSection({super.key});
@@ -23,13 +24,14 @@ class TrendingSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                children: const [
-                  Icon(Icons.trending_up, color: Color(0xffFFD054), size: 20),
-                  SizedBox(width: 8),
+                children: [
+                  Icon(Icons.trending_up,
+                      color: AppColors.rating, size: 20),
+                  const SizedBox(width: 8),
                   Text(
                     "Trending Now",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
@@ -43,14 +45,14 @@ class TrendingSection extends StatelessWidget {
                     Text(
                       "See all",
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.5),
+                        color: AppColors.textMuted,
                         fontWeight: FontWeight.w500,
                         fontSize: 13,
                       ),
                     ),
                     Icon(
                       Icons.chevron_right,
-                      color: Colors.white.withValues(alpha: 0.5),
+                      color: AppColors.textMuted,
                       size: 16,
                     ),
                   ],
@@ -78,13 +80,8 @@ class TrendingSection extends StatelessWidget {
             final isLoading = state is! MovieLoaded;
             final movies = state is MovieLoaded ? state.movies : _fakeMovies;
 
-            return Skeletonizer(
+            return SectionSkeleton(
               enabled: isLoading,
-              effect: const ShimmerEffect(
-                baseColor: Color(0xffE0E0E0),
-                highlightColor: Color(0xffF5F5F5),
-                duration: Duration(milliseconds: 1500),
-              ),
               child: SizedBox(
                 height: 280,
                 child: ListView.builder(

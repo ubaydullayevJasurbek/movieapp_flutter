@@ -100,11 +100,11 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     cursorColor: AppColors.primary,
                     onChanged: widget.onChanged,
                     onSubmitted: widget.onSubmitted,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
                       fontSize: 15,
                     ),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       isCollapsed: true,
                       border: InputBorder.none,
                       hintText: 'Search movies...',

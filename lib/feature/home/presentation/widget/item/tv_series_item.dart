@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 class TvSeriesItem extends StatefulWidget {
   final String title;
@@ -36,7 +37,12 @@ class _TvSeriesItemState extends State<TvSeriesItem> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: _isPressed ? 0.2 : 0.4),
+            color: (AppColors.isDark ? Colors.black : const Color(0xFF1E293B))
+                .withValues(
+              alpha: AppColors.isDark
+                  ? (_isPressed ? 0.2 : 0.4)
+                  : (_isPressed ? 0.08 : 0.18),
+            ),
             blurRadius: _isPressed ? 10 : 20,
             offset: Offset(0, _isPressed ? 4 : 10),
           ),
@@ -96,8 +102,8 @@ class _TvSeriesItemState extends State<TvSeriesItem> {
                 widget.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: AppColors.textPrimary,
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                 ),
@@ -108,18 +114,18 @@ class _TvSeriesItemState extends State<TvSeriesItem> {
               // Reyting + yil
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.star_rounded,
                     size: 15,
-                    color: Color(0xffF6C344),
+                    color: AppColors.rating,
                   ),
 
                   const SizedBox(width: 4),
 
                   Text(
                     widget.rating > 0 ? widget.rating.toStringAsFixed(1) : 'NR',
-                    style: const TextStyle(
-                      color: Color(0xffF6C344),
+                    style: TextStyle(
+                      color: AppColors.rating,
                       fontWeight: FontWeight.w700,
                       fontSize: 13,
                     ),
@@ -131,8 +137,8 @@ class _TvSeriesItemState extends State<TvSeriesItem> {
                     Container(
                       width: 3,
                       height: 3,
-                      decoration: const BoxDecoration(
-                        color: Colors.white38,
+                      decoration: BoxDecoration(
+                        color: AppColors.textFaint,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -141,8 +147,8 @@ class _TvSeriesItemState extends State<TvSeriesItem> {
 
                     Text(
                       widget.year,
-                      style: const TextStyle(
-                        color: Colors.white54,
+                      style: TextStyle(
+                        color: AppColors.textMuted,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),

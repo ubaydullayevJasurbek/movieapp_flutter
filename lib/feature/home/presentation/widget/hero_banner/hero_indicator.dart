@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 class HeroIndicator extends StatelessWidget {
   final int currentIndex;
@@ -37,8 +38,8 @@ class HeroIndicator extends StatelessWidget {
               width: isActive ? 22 : 8,
               decoration: BoxDecoration(
                 color: isActive
-                    ? const Color(0xffFFD054)
-                    : Colors.white.withValues(alpha: 0.4),
+                    ? AppColors.heroAccent
+                    : AppColors.onScrim.withValues(alpha: 0.4),
                 borderRadius: BorderRadius.circular(4),
               ),
             ),

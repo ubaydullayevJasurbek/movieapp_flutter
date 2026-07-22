@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 /// Search input used to filter the favourites list by title.
 class FavouritesSearchField extends StatelessWidget {
@@ -19,23 +20,23 @@ class FavouritesSearchField extends StatelessWidget {
         controller: controller,
         onChanged: onChanged,
         textInputAction: TextInputAction.search,
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(color: AppColors.textPrimary),
         decoration: InputDecoration(
           isDense: true,
           hintText: 'Search favourites',
-          hintStyle: const TextStyle(color: Colors.white38),
-          prefixIcon: const Icon(Icons.search_rounded, color: Colors.white38),
+          hintStyle: TextStyle(color: AppColors.textFaint),
+          prefixIcon: Icon(Icons.search_rounded, color: AppColors.textFaint),
           suffixIcon: controller.text.isEmpty
               ? null
               : IconButton(
-                  icon: const Icon(Icons.close_rounded, color: Colors.white38),
+                  icon: Icon(Icons.close_rounded, color: AppColors.textFaint),
                   onPressed: () {
                     controller.clear();
                     onChanged('');
                   },
                 ),
           filled: true,
-          fillColor: Colors.white.withValues(alpha: 0.06),
+          fillColor: AppColors.fill,
           contentPadding: const EdgeInsets.symmetric(vertical: 14),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),

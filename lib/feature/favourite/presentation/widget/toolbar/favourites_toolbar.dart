@@ -39,7 +39,7 @@ class FavouritesToolbar extends StatelessWidget {
           Expanded(
             child: Text(
               '$count ${count == 1 ? 'result' : 'results'}',
-              style: const TextStyle(color: Colors.white54, fontSize: 13),
+              style: TextStyle(color: AppColors.textMuted, fontSize: 13),
             ),
           ),
           PopupMenuButton<FavouriteSort>(
@@ -53,22 +53,24 @@ class FavouritesToolbar extends StatelessWidget {
                 .map((s) => PopupMenuItem(
                       value: s,
                       child: Text(s.label,
-                          style: const TextStyle(color: Colors.white)),
+                          style: TextStyle(color: AppColors.textPrimary)),
                     ))
                 .toList(),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.06),
+                color: AppColors.fill,
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.sort_rounded, color: Colors.white70, size: 18),
+                  Icon(Icons.sort_rounded,
+                      color: AppColors.textSecondary, size: 18),
                   const SizedBox(width: 6),
                   Text(sort.label,
-                      style: const TextStyle(color: Colors.white70, fontSize: 13)),
+                      style: TextStyle(
+                          color: AppColors.textSecondary, fontSize: 13)),
                 ],
               ),
             ),
@@ -77,7 +79,7 @@ class FavouritesToolbar extends StatelessWidget {
           Tooltip(
             message: grid ? 'List view' : 'Grid view',
             child: Material(
-              color: Colors.white.withValues(alpha: 0.06),
+              color: AppColors.fill,
               shape: const CircleBorder(),
               child: InkWell(
                 customBorder: const CircleBorder(),
@@ -86,7 +88,7 @@ class FavouritesToolbar extends StatelessWidget {
                   padding: const EdgeInsets.all(9),
                   child: Icon(
                     grid ? Icons.view_list_rounded : Icons.grid_view_rounded,
-                    color: Colors.white70,
+                    color: AppColors.textSecondary,
                     size: 20,
                   ),
                 ),

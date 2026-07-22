@@ -28,12 +28,12 @@ class SettingsSection extends StatelessWidget {
             filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.05),
+                color: AppColors.glass,
                 borderRadius: BorderRadius.circular(22),
                 border: Border.all(color: AppColors.border),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.2),
+                    color: AppColors.shadow,
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -56,7 +56,7 @@ class SettingsSection extends StatelessWidget {
       rows.add(children[i]);
       if (i != children.length - 1) {
         rows.add(
-          const Divider(
+          Divider(
             height: 1,
             thickness: 1,
             indent: 70,

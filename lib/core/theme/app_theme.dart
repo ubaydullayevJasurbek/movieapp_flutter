@@ -2,12 +2,28 @@ import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 
-/// Modern dark Material 3 theme built on [AppColors].
+/// Builds the app's Material 3 [ThemeData] for a given [Brightness].
+///
+/// Both the light and dark themes are derived from the single [AppColors]
+/// source of truth. [resolve] first applies the brightness to [AppColors] so
+/// the custom widgets that read those tokens render with the same palette as
+/// the Material components in the returned theme.
 class AppTheme {
   AppTheme._();
 
-  static ThemeData get dark {
-    final scheme = const ColorScheme.dark().copyWith(
+  static ThemeData get dark => resolve(Brightness.dark);
+  static ThemeData get light => resolve(Brightness.light);
+
+  static ThemeData resolve(Brightness brightness) {
+    // Keep the token layer in sync with the theme being built.
+    AppColors.apply(brightness);
+
+    final isDark = brightness == Brightness.dark;
+
+    final scheme =
+        (isDark ? const ColorScheme.dark() : const ColorScheme.light())
+            .copyWith(
+      brightness: brightness,
       primary: AppColors.primary,
       onPrimary: AppColors.onPrimary,
       secondary: AppColors.primary,
@@ -21,45 +37,45 @@ class AppTheme {
 
     return ThemeData(
       useMaterial3: true,
-      brightness: Brightness.dark,
+      brightness: brightness,
       colorScheme: scheme,
       scaffoldBackgroundColor: AppColors.background,
       canvasColor: AppColors.background,
       primaryColor: AppColors.primary,
       dividerColor: AppColors.divider,
-      splashColor: Colors.white.withValues(alpha: 0.08),
-      highlightColor: Colors.white.withValues(alpha: 0.04),
-      iconTheme: const IconThemeData(color: AppColors.textPrimary),
-      dividerTheme: const DividerThemeData(color: AppColors.divider, thickness: 1),
-      appBarTheme: const AppBarTheme(
+      splashColor: AppColors.textPrimary.withValues(alpha: 0.08),
+      highlightColor: AppColors.textPrimary.withValues(alpha: 0.04),
+      iconTheme: IconThemeData(color: AppColors.textPrimary),
+      dividerTheme: DividerThemeData(color: AppColors.divider, thickness: 1),
+      appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         foregroundColor: AppColors.textPrimary,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
       ),
       cardColor: AppColors.surface,
-      dialogTheme: const DialogThemeData(
+      dialogTheme: DialogThemeData(
         backgroundColor: AppColors.surface,
         surfaceTintColor: Colors.transparent,
       ),
-      popupMenuTheme: const PopupMenuThemeData(
+      popupMenuTheme: PopupMenuThemeData(
         color: AppColors.surface,
         surfaceTintColor: Colors.transparent,
       ),
-      snackBarTheme: const SnackBarThemeData(
+      snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.surface,
         contentTextStyle: TextStyle(color: AppColors.textPrimary),
         behavior: SnackBarBehavior.floating,
       ),
-      bottomSheetTheme: const BottomSheetThemeData(
+      bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: AppColors.surface,
         surfaceTintColor: Colors.transparent,
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.fill,
         selectedColor: AppColors.primary,
-        side: const BorderSide(color: AppColors.border),
-        labelStyle: const TextStyle(color: AppColors.textSecondary),
+        side: BorderSide(color: AppColors.border),
+        labelStyle: TextStyle(color: AppColors.textSecondary),
         secondaryLabelStyle: const TextStyle(color: AppColors.onPrimary),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),

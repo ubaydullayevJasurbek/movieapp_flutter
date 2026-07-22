@@ -14,16 +14,16 @@ Future<bool> showRemoveFavouriteDialog(
     builder: (ctx) => AlertDialog(
       backgroundColor: AppColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      title: const Text('Remove favourite?',
-          style: TextStyle(color: Colors.white)),
+      title: Text('Remove favourite?',
+          style: TextStyle(color: AppColors.textPrimary)),
       content: Text(
         'Remove "${movie.title}" from your favourites.',
-        style: const TextStyle(color: Colors.white70),
+        style: TextStyle(color: AppColors.textSecondary),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx, false),
-          child: const Text('Cancel', style: TextStyle(color: Colors.white54)),
+          child: Text('Cancel', style: TextStyle(color: AppColors.textMuted)),
         ),
         FilledButton(
           style: FilledButton.styleFrom(backgroundColor: AppColors.danger),

@@ -66,7 +66,7 @@ class SettingsTile extends StatelessWidget {
                       title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -78,7 +78,7 @@ class SettingsTile extends StatelessWidget {
                         subtitle!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textMuted,
                           fontSize: 12.5,
                         ),
@@ -89,7 +89,7 @@ class SettingsTile extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               trailing ??
-                  const Icon(
+                  Icon(
                     Icons.chevron_right_rounded,
                     color: AppColors.textFaint,
                     size: 22,

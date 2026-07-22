@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/core/theme/app_colors.dart';
+import 'package:movieapp/core/theme/theme_cubit.dart';
 
 import 'presentation/model/profile_view_data.dart';
 import 'presentation/widget/continue_watching_section.dart';
@@ -8,6 +10,7 @@ import 'presentation/widget/profile_header.dart';
 import 'presentation/widget/profile_stats.dart';
 import 'presentation/widget/settings_section.dart';
 import 'presentation/widget/settings_tile.dart';
+import 'presentation/widget/theme_switch_tile.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -23,7 +26,7 @@ class ProfilePage extends StatelessWidget {
           backgroundColor: AppColors.surface,
           content: Text(
             '$label — coming soon',
-            style: const TextStyle(color: AppColors.textPrimary),
+            style: TextStyle(color: AppColors.textPrimary),
           ),
         ),
       );
@@ -38,16 +41,16 @@ class ProfilePage extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        title: const Text('Log out?',
+        title: Text('Log out?',
             style: TextStyle(color: AppColors.textPrimary)),
-        content: const Text(
+        content: Text(
           'You will need to sign in again to access your library.',
           style: TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Cancel',
+            child: Text('Cancel',
                 style: TextStyle(color: AppColors.textMuted)),
           ),
           TextButton(
@@ -62,7 +65,7 @@ class ProfilePage extends StatelessWidget {
       messenger
         ..hideCurrentSnackBar()
         ..showSnackBar(
-          const SnackBar(
+          SnackBar(
             behavior: SnackBarBehavior.floating,
             backgroundColor: AppColors.surface,
             content: Text('Logged out',
@@ -74,6 +77,9 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Rebuild in place on theme changes so the AppColors tokens re-resolve.
+    context.watch<ThemeCubit>();
+
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return Scaffold(
@@ -122,7 +128,7 @@ class ProfilePage extends StatelessWidget {
                           const SizedBox(height: 30),
                           LogoutButton(onTap: () => _confirmLogout(context)),
                           const SizedBox(height: 16),
-                          const Text(
+                          Text(
                             'Lumina • v1.0.0',
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -176,12 +182,7 @@ class ProfilePage extends StatelessWidget {
     return SettingsSection(
       title: 'Preferences',
       children: [
-        SettingsTile(
-          icon: Icons.dark_mode_rounded,
-          title: 'Theme',
-          subtitle: 'Dark',
-          onTap: () => _soon(context, 'Theme'),
-        ),
+        const ThemeSwitchTile(),
         SettingsTile(
           icon: Icons.language_rounded,
           iconColor: const Color(0xFF6366F1),

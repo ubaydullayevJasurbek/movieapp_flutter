@@ -30,10 +30,10 @@ class FavouritesHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'My Favourites',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.textPrimary,
                     fontSize: 24,
                     fontWeight: FontWeight.w800,
                   ),
@@ -41,7 +41,7 @@ class FavouritesHeader extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   count == 1 ? '1 title saved' : '$count titles saved',
-                  style: const TextStyle(color: Colors.white54, fontSize: 13),
+                  style: TextStyle(color: AppColors.textMuted, fontSize: 13),
                 ),
               ],
             ),

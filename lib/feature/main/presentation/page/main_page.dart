@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:movieapp/core/theme/app_colors.dart';
+import 'package:movieapp/core/theme/theme_cubit.dart';
 import 'package:movieapp/feature/favourite/presentation/page/favourite_page.dart';
 import 'package:movieapp/feature/home/presentation/page/home_page.dart';
 import 'package:movieapp/feature/profile/profile_page.dart';
@@ -75,6 +77,10 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Depend on the ThemeCubit so this page (and its nav bar) rebuild in place
+    // when the theme changes and the AppColors tokens re-resolve.
+    context.watch<ThemeCubit>();
+
     return PopScope(
       // Only allow the system back to exit the app when already on Home.
       canPop: _currentScreen == _homeIndex,
@@ -88,18 +94,18 @@ class _MainPageState extends State<MainPage> {
         bottomNavigationBar: Container(
           margin: const EdgeInsets.fromLTRB(16, 0, 16, 28),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.08),
+            color: AppColors.glassStrong,
             borderRadius: BorderRadius.circular(30),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.15),
+              color: AppColors.glassBorder,
               width: 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 20,
-                spreadRadius: 2,
-                offset: const Offset(0, 8),
+                color: AppColors.shadowStrong,
+                blurRadius: 24,
+                spreadRadius: 1,
+                offset: const Offset(0, 10),
               ),
             ],
           ),
@@ -118,7 +124,7 @@ class _MainPageState extends State<MainPage> {
                   duration: const Duration(milliseconds: 400),
                   gap: 6,
                   color: AppColors.textSecondary,
-                  activeColor: AppColors.primary,
+                  activeColor: AppColors.rating,
                   iconSize: 22,
                   tabBackgroundColor: AppColors.primary.withValues(alpha: 0.15),
                   padding: const EdgeInsets.symmetric(

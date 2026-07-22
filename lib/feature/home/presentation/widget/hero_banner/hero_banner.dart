@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 import '../../cubit/movie_cubit/movie_cubit.dart';
 import '../../cubit/movie_cubit/movie_state.dart';
@@ -90,12 +91,12 @@ class HeroBanner extends StatelessWidget {
           final List<Result> movies = state.movies.take(5).toList();
 
           if (movies.isEmpty) {
-            return const SizedBox(
+            return SizedBox(
               height: 300,
               child: Center(
                 child: Text(
                   'Hozircha filmlar mavjud emas',
-                  style: TextStyle(color: Colors.white70),
+                  style: TextStyle(color: AppColors.textMuted),
                 ),
               ),
             );
@@ -114,7 +115,7 @@ class HeroBanner extends StatelessWidget {
             child: Center(
               child: Text(
                 state.message,
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: AppColors.textPrimary),
               ),
             ),
           );

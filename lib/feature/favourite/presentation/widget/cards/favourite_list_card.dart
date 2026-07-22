@@ -5,7 +5,7 @@ import '../../../domain/entities/favourite_movie.dart';
 import 'favourite_card_parts.dart';
 import 'pressable.dart';
 
-const _kCard = AppColors.surface;
+Color get _kCard => AppColors.surface;
 
 /// List row: landscape thumbnail with title, meta and genre chips.
 class FavouriteListCard extends StatelessWidget {
@@ -32,7 +32,7 @@ class FavouriteListCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: _kCard.withValues(alpha: 0.55),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
+            border: Border.all(color: AppColors.border),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,8 +57,8 @@ class FavouriteListCard extends StatelessWidget {
                         movie.title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: AppColors.textPrimary,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
@@ -66,7 +66,7 @@ class FavouriteListCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         movie.year,
-                        style: const TextStyle(color: Colors.white54, fontSize: 13),
+                        style: TextStyle(color: AppColors.textMuted, fontSize: 13),
                       ),
                       if (movie.genres.isNotEmpty) ...[
                         const SizedBox(height: 8),
@@ -79,13 +79,14 @@ class FavouriteListCard extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 3),
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withValues(alpha: 0.06),
+                                      color: AppColors.fill,
                                       borderRadius: BorderRadius.circular(30),
                                     ),
                                     child: Text(
                                       g,
-                                      style: const TextStyle(
-                                          color: Colors.white70, fontSize: 11),
+                                      style: TextStyle(
+                                          color: AppColors.textSecondary,
+                                          fontSize: 11),
                                     ),
                                   ))
                               .toList(),

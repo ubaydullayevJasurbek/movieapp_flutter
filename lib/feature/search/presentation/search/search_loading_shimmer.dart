@@ -17,10 +17,10 @@ class SearchLoadingShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Skeletonizer(
       enabled: true,
-      effect: const ShimmerEffect(
-        baseColor: Color(0xFF1E293B),
-        highlightColor: Color(0xFF334155),
-        duration: Duration(milliseconds: 1400),
+      effect: ShimmerEffect(
+        baseColor: AppColors.skeletonBase,
+        highlightColor: AppColors.skeletonHighlight,
+        duration: const Duration(milliseconds: 1400),
       ),
       child: GridView.builder(
         physics: const NeverScrollableScrollPhysics(),

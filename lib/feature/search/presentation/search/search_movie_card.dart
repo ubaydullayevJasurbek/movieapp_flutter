@@ -43,7 +43,7 @@ class SearchMovieCard extends StatelessWidget {
             movie.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 14,
               fontWeight: FontWeight.w700,
@@ -54,7 +54,7 @@ class SearchMovieCard extends StatelessWidget {
             movie.genres.isNotEmpty ? movie.genres.take(2).join(' · ') : 'Movie',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
+            style: TextStyle(color: AppColors.textMuted, fontSize: 12),
           ),
         ],
       ),
@@ -117,7 +117,7 @@ class SearchMovieCard extends StatelessWidget {
         child: Text(
           year,
           style: const TextStyle(
-            color: AppColors.textPrimary,
+            color: Colors.white,
             fontSize: 11,
             fontWeight: FontWeight.w600,
           ),

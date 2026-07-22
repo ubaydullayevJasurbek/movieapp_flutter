@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 class TrendingItem extends StatefulWidget {
   final String title;
@@ -75,8 +76,8 @@ class _TrendingItemState extends State<TrendingItem> {
                 widget.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: AppColors.textPrimary,
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
@@ -87,12 +88,12 @@ class _TrendingItemState extends State<TrendingItem> {
               // Rating + year
               Row(
                 children: [
-                  const Icon(Icons.star, color: Color(0xffFFD054), size: 13),
+                  Icon(Icons.star, color: AppColors.rating, size: 13),
                   const SizedBox(width: 3),
                   Text(
                     widget.rating.toStringAsFixed(1),
-                    style: const TextStyle(
-                      color: Color(0xffFFD054),
+                    style: TextStyle(
+                      color: AppColors.rating,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                     ),
@@ -101,8 +102,8 @@ class _TrendingItemState extends State<TrendingItem> {
                     const SizedBox(width: 5),
                     Text(
                       '· ${widget.year}',
-                      style: const TextStyle(
-                        color: Colors.white60,
+                      style: TextStyle(
+                        color: AppColors.textMuted,
                         fontSize: 12,
                       ),
                     ),

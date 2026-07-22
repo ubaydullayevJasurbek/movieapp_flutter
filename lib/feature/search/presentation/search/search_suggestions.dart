@@ -48,7 +48,7 @@ class SearchSuggestions extends StatelessWidget {
                           term,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 13,
                             fontWeight: FontWeight.w500,

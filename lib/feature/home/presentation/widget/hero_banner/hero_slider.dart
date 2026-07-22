@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 import '../../../data/model/move_response/movie_response.dart';
 import '../../../data/repository_impl/movie_repository.dart';
@@ -85,12 +86,12 @@ class _HeroSliderState extends State<HeroSlider> {
   @override
   Widget build(BuildContext context) {
     if (widget.movies.isEmpty) {
-      return const SizedBox(
+      return SizedBox(
         height: 300,
         child: Center(
           child: Text(
             'Filmlar topilmadi',
-            style: TextStyle(color: Colors.white70),
+            style: TextStyle(color: AppColors.textMuted),
           ),
         ),
       );
@@ -134,21 +135,21 @@ class _HeroSliderState extends State<HeroSlider> {
                     children: [
                       Container(
                         padding: const EdgeInsets.all(6),
-                        decoration: const BoxDecoration(
-                          color: Color(0xffFFD054),
+                        decoration: BoxDecoration(
+                          color: AppColors.heroAccent,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.play_arrow,
                           size: 16,
-                          color: Colors.black,
+                          color: AppColors.onHeroAccent,
                         ),
                       ),
                       const SizedBox(width: 8),
                       const Text(
                         'LUMINA',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.onScrim,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1.2,
@@ -195,9 +196,7 @@ class _HeroSliderState extends State<HeroSlider> {
                       borderRadius: BorderRadius.circular(28),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(
-                            0xffFFD054,
-                          ).withValues(alpha: 0.35),
+                          color: AppColors.heroAccent.withValues(alpha: 0.35),
                           blurRadius: 16,
                           offset: const Offset(0, 6),
                         ),
@@ -224,24 +223,25 @@ class _HeroSliderState extends State<HeroSlider> {
                               }
                             },
                       icon: _watchLoading
-                          ? const SizedBox(
+                          ? SizedBox(
                               width: 18,
                               height: 18,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                color: Colors.black,
+                                color: AppColors.onHeroAccent,
                               ),
                             )
-                          : const Icon(Icons.play_arrow, color: Colors.black),
-                      label: const Text(
+                          : Icon(Icons.play_arrow,
+                              color: AppColors.onHeroAccent),
+                      label: Text(
                         'Watch Now',
                         style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
+                          color: AppColors.onHeroAccent,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xffFFD054),
+                        backgroundColor: AppColors.heroAccent,
                         elevation: 0,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 22,
@@ -262,15 +262,19 @@ class _HeroSliderState extends State<HeroSlider> {
                         onPressed: () {
                           // TODO: "Mening ro'yxatim"ga qo'shish logikasi
                         },
-                        icon: const Icon(Icons.add, color: Colors.white),
+                        icon: const Icon(Icons.add, color: AppColors.onScrim),
                         label: const Text(
                           'My List',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: AppColors.onScrim,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.white.withValues(alpha: 0.1),
+                          backgroundColor:
+                              AppColors.onScrim.withValues(alpha: 0.10),
                           side: BorderSide(
-                            color: Colors.white.withValues(alpha: 0.15),
+                            color: AppColors.onScrim.withValues(alpha: 0.15),
                           ),
                           padding: const EdgeInsets.symmetric(
                             horizontal: 22,
@@ -324,11 +328,13 @@ class _HeroSliderState extends State<HeroSlider> {
           child: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
+              color: AppColors.onScrim.withValues(alpha: 0.10),
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+              border: Border.all(
+                color: AppColors.onScrim.withValues(alpha: 0.15),
+              ),
             ),
-            child: Icon(icon, color: Colors.white, size: 18),
+            child: Icon(icon, color: AppColors.onScrim, size: 18),
           ),
         ),
       ),

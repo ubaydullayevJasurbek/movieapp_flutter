@@ -95,6 +95,23 @@ class Result {
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
 
+  factory Result.fake({int id = 0}) => Result(
+        adult: false,
+        backdropPath: '',
+        genreIds: const [],
+        id: id,
+        originalLanguage: 'en',
+        originalTitle: '',
+        overview: '',
+        popularity: 0,
+        posterPath: '/$id',
+        releaseDate: DateTime(2024, 1, 1),
+        title: 'Movie title',
+        video: false,
+        voteAverage: 8.5,
+        voteCount: 0,
+      );
+
   Map<String, dynamic> toJson() => _$ResultToJson(this);
 }
 

@@ -5,7 +5,7 @@ import 'package:movieapp/core/theme/app_colors.dart';
 import '../../../domain/entities/favourite_movie.dart';
 
 const _kAccent = AppColors.primary;
-const _kCard = AppColors.surface;
+Color get _kCard => AppColors.surface;
 
 /// Rounded poster image with a graceful fallback, shared by both cards.
 Widget favouritePoster(

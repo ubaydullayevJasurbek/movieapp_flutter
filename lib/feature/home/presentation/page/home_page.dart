@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
+import 'package:movieapp/core/theme/theme_cubit.dart';
 import 'package:movieapp/feature/home/presentation/widget/hero_banner/hero_banner.dart';
 
 import '../cubit/movie_cubit/movie_cubit.dart';
@@ -21,6 +23,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Rebuild in place on theme changes so the AppColors tokens re-resolve.
+    context.watch<ThemeCubit>();
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -35,7 +40,7 @@ class HomePage extends StatelessWidget {
           BlocProvider(create: (_) => TvSeriesCubit()..getTVSeries()),
         ],
         child: Scaffold(
-          backgroundColor: Colors.black,
+          backgroundColor: AppColors.background,
           body: ScrollConfiguration(
             behavior: const MaterialScrollBehavior().copyWith(
               scrollbars: false,

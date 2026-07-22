@@ -37,15 +37,15 @@ class CenteredMessage extends StatelessWidget {
                     height: 96,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white.withValues(alpha: 0.06),
+                      color: AppColors.fill,
                     ),
                     child: Icon(icon, size: 44, color: _kAccent),
                   ),
                   const SizedBox(height: 24),
                   Text(
                     title,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                     ),
@@ -54,8 +54,8 @@ class CenteredMessage extends StatelessWidget {
                   Text(
                     subtitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        color: Colors.white54, fontSize: 14, height: 1.5),
+                    style: TextStyle(
+                        color: AppColors.textMuted, fontSize: 14, height: 1.5),
                   ),
                   if (action != null) ...[const SizedBox(height: 24), action!],
                 ],

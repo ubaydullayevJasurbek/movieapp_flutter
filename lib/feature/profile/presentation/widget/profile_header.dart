@@ -26,7 +26,7 @@ class ProfileHeader extends StatelessWidget {
                 user.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textPrimary,
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
@@ -44,12 +44,12 @@ class ProfileHeader extends StatelessWidget {
           user.email,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(color: AppColors.textMuted, fontSize: 14),
+          style: TextStyle(color: AppColors.textMuted, fontSize: 14),
         ),
         const SizedBox(height: 4),
         Text(
           user.memberSince,
-          style: const TextStyle(color: AppColors.textFaint, fontSize: 12),
+          style: TextStyle(color: AppColors.textFaint, fontSize: 12),
         ),
         const SizedBox(height: 18),
         _EditProfileButton(onTap: onEdit),
@@ -95,7 +95,7 @@ class _Avatar extends StatelessWidget {
               ),
               child: Container(
                 padding: const EdgeInsets.all(3),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: AppColors.background,
                 ),

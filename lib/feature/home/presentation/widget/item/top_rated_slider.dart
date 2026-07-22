@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 class TopRatedSlider extends StatefulWidget {
   final String title;
@@ -55,8 +56,12 @@ class _TopRatedSliderState extends State<TopRatedSlider> {
                   borderRadius: BorderRadius.circular(18),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(
-                        alpha: _isPressed ? 0.2 : 0.4,
+                      color:
+                          (AppColors.isDark ? Colors.black : const Color(0xFF1E293B))
+                              .withValues(
+                        alpha: AppColors.isDark
+                            ? (_isPressed ? 0.2 : 0.4)
+                            : (_isPressed ? 0.08 : 0.18),
                       ),
                       blurRadius: _isPressed ? 10 : 20,
                       offset: Offset(0, _isPressed ? 4 : 10),
@@ -161,8 +166,8 @@ class _TopRatedSliderState extends State<TopRatedSlider> {
                 child: Text(
                   meta,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Color(0xffFFD054),
+                  style: TextStyle(
+                    color: AppColors.rating,
                     fontSize: 9,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.4,
@@ -175,8 +180,8 @@ class _TopRatedSliderState extends State<TopRatedSlider> {
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: AppColors.textPrimary,
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
                 height: 1.2,

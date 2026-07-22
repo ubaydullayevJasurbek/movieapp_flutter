@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/core/theme/app_colors.dart';
+import 'package:movieapp/core/theme/theme_cubit.dart';
 import 'package:movieapp/feature/details/presentation/pages/movie_details_page.dart';
 
 import '../search/search_app_bar.dart';
@@ -132,11 +133,14 @@ class _SearchViewState extends State<_SearchView> {
 
   @override
   Widget build(BuildContext context) {
+    // Rebuild in place on theme changes so the AppColors tokens re-resolve.
+    context.watch<ThemeCubit>();
+
     final width = MediaQuery.sizeOf(context).width;
     final grid = _gridMetrics(width);
 
     return Scaffold(
-      backgroundColor: AppColors.surfaceHigh,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

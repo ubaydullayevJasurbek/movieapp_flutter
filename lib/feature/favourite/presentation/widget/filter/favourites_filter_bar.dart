@@ -42,16 +42,16 @@ class FavouritesFilterBar extends StatelessWidget {
       color: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.selected)
             ? _kAccent
-            : Colors.white.withValues(alpha: 0.06),
+            : AppColors.fill,
       ),
       surfaceTintColor: Colors.transparent,
       labelStyle: TextStyle(
-        color: selected ? Colors.black : Colors.white70,
+        color: selected ? AppColors.onPrimary : AppColors.textSecondary,
         fontWeight: FontWeight.w600,
         fontSize: 13,
       ),
       side: BorderSide(
-        color: selected ? Colors.transparent : Colors.white.withValues(alpha: 0.12),
+        color: selected ? Colors.transparent : AppColors.border,
       ),
       visualDensity: VisualDensity.compact,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

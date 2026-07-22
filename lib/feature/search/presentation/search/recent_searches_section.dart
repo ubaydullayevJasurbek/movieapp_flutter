@@ -77,7 +77,7 @@ class _RecentChip extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.history_rounded,
+              Icon(Icons.history_rounded,
                   size: 15, color: AppColors.textMuted),
               const SizedBox(width: 7),
               ConstrainedBox(
@@ -86,7 +86,7 @@ class _RecentChip extends StatelessWidget {
                   label,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -97,8 +97,8 @@ class _RecentChip extends StatelessWidget {
               GestureDetector(
                 onTap: onDelete,
                 behavior: HitTestBehavior.opaque,
-                child: const Padding(
-                  padding: EdgeInsets.all(3),
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
                   child: Icon(Icons.close_rounded,
                       size: 15, color: AppColors.textFaint),
                 ),

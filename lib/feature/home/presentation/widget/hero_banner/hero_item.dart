@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 import '../../../data/model/move_response/movie_detail_response.dart';
 import '../../../data/model/move_response/movie_response.dart';
@@ -99,28 +100,17 @@ class _HeroItemState extends State<HeroItem>
                       fit: BoxFit.cover,
                       fadeInDuration: const Duration(milliseconds: 300),
                       placeholder: (context, url) =>
-                          const ColoredBox(color: Color(0xFF0B1527)),
+                          ColoredBox(color: AppColors.surfaceHigh),
                       errorWidget: (context, url, error) =>
-                          const ColoredBox(color: Color(0xFF0B1527)),
+                          ColoredBox(color: AppColors.surfaceHigh),
                     )
-                  : Container(color: const Color(0xFF0B1527)),
+                  : Container(color: AppColors.surfaceHigh),
             ),
           ),
         ),
 
         Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.transparent,
-                Colors.black.withValues(alpha: 0.55),
-                Colors.black.withValues(alpha: 0.95),
-              ],
-              stops: const [0.15, 0.60, 1.0],
-            ),
-          ),
+          decoration: BoxDecoration(gradient: AppColors.heroScrim),
         ),
         Container(
           decoration: BoxDecoration(
@@ -128,7 +118,7 @@ class _HeroItemState extends State<HeroItem>
               center: const Alignment(-0.4, -0.7),
               radius: 1.1,
               colors: [
-                const Color(0xffFFD054).withValues(alpha: 0.10),
+                AppColors.heroAccent.withValues(alpha: 0.10),
                 Colors.transparent,
               ],
             ),
@@ -157,68 +147,74 @@ class _HeroItemState extends State<HeroItem>
                       if (detail != null && detail.genres.isNotEmpty)
                         Wrap(
                           spacing: 8,
+                          runSpacing: 8,
                           children: detail.genres
                               .take(3)
                               .map((g) => _genreChip(g.name))
                               .toList(),
                         ),
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 18),
                       Text(
                         widget.movie.title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.onScrim,
                           fontSize: 34,
                           fontWeight: FontWeight.bold,
                           height: 1.1,
+                          letterSpacing: -0.5,
                           shadows: [
                             Shadow(
-                              color: Colors.black54,
+                              color: AppColors.onScrimShadow,
                               blurRadius: 12,
                               offset: Offset(0, 4),
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 12),
                       Text(
                         widget.movie.overview,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          color: Colors.white70,
+                          color: AppColors.onScrimMuted,
                           fontSize: 14,
+                          height: 1.4,
                         ),
                       ),
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 16),
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.star,
-                            color: Color(0xffFFD054),
+                            color: AppColors.heroAccent,
                             size: 18,
                           ),
                           const SizedBox(width: 4),
                           Text(
                             '${widget.movie.voteAverage.toStringAsFixed(1)} IMDb',
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: AppColors.onScrim,
                               fontSize: 13,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           const SizedBox(width: 10),
-                          const Text(
+                          Text(
                             '|',
-                            style: TextStyle(color: Colors.white38),
+                            style: TextStyle(
+                              color: AppColors.onScrim.withValues(alpha: 0.38),
+                            ),
                           ),
                           const SizedBox(width: 10),
                           Text(
                             '${widget.movie.releaseDate?.year}',
                             style: const TextStyle(
-                              color: Colors.white70,
+                              color: AppColors.onScrimMuted,
                               fontSize: 13,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                           if (detail != null &&
@@ -226,15 +222,16 @@ class _HeroItemState extends State<HeroItem>
                             const SizedBox(width: 14),
                             const Icon(
                               Icons.access_time,
-                              color: Colors.white70,
+                              color: AppColors.onScrimMuted,
                               size: 15,
                             ),
                             const SizedBox(width: 4),
                             Text(
                               detail.runtimeLabel,
                               style: const TextStyle(
-                                color: Colors.white70,
+                                color: AppColors.onScrimMuted,
                                 fontSize: 13,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -259,13 +256,19 @@ class _HeroItemState extends State<HeroItem>
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.12),
+            color: AppColors.onScrim.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+            border: Border.all(
+              color: AppColors.onScrim.withValues(alpha: 0.15),
+            ),
           ),
           child: Text(
             label,
-            style: const TextStyle(color: Colors.white, fontSize: 12),
+            style: const TextStyle(
+              color: AppColors.onScrim,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

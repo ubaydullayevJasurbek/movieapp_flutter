@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../details/presentation/pages/movie_details_page.dart';
@@ -9,6 +10,7 @@ import '../../../data/model/top_rated_response/top_rated_response.dart';
 import '../../cubit/top_rated_cubit/top_rated_cubit.dart';
 import '../../cubit/top_rated_cubit/top_rated_state.dart';
 import '../item/top_rated_slider.dart';
+import 'section_skeleton.dart';
 
 class TopMoviesSection extends StatefulWidget {
   const TopMoviesSection({super.key});
@@ -31,17 +33,17 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                children: const [
+                children: [
                   Icon(
                     Icons.workspace_premium,
-                    color: Color(0xffFFD054),
+                    color: AppColors.rating,
                     size: 20,
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Text(
                     "Top Rated",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
@@ -55,14 +57,14 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                     Text(
                       "See all",
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.5),
+                        color: AppColors.textMuted,
                         fontWeight: FontWeight.w500,
                         fontSize: 13,
                       ),
                     ),
                     Icon(
                       Icons.chevron_right,
-                      color: Colors.white.withValues(alpha: 0.5),
+                      color: AppColors.textMuted,
                       size: 16,
                     ),
                   ],
@@ -75,14 +77,6 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
 
         BlocBuilder<TopRatedCubit, TopRatedState>(
           builder: (context, state) {
-            if (state is TopRatedLoading) {
-              return const SizedBox(
-                height: 230,
-                child: Center(
-                  child: CircularProgressIndicator(color: Colors.white),
-                ),
-              );
-            }
             if (state is TopRatedError) {
               return SizedBox(
                 height: 230,
@@ -94,8 +88,13 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                 ),
               );
             }
-            if (state is TopRatedLoaded) {
-              return Column(
+
+            final isLoading = state is! TopRatedLoaded;
+            final movies = state is TopRatedLoaded ? state.movies : _fakeMovies;
+
+            return SectionSkeleton(
+              enabled: isLoading,
+              child: Column(
                 children: [
                   CarouselSlider(
                     options: CarouselOptions(
@@ -103,7 +102,7 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                         setState(() => _currentIndex = index);
                       },
                       height: 190,
-                      autoPlay: true,
+                      autoPlay: !isLoading,
                       autoPlayCurve: Curves.easeInOutCubic,
                       autoPlayAnimationDuration: const Duration(
                         milliseconds: 800,
@@ -114,7 +113,23 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                       viewportFraction: 0.82,
                       clipBehavior: Clip.none,
                     ),
-                    items: state.movies.map((movie) {
+                    items: movies.map((movie) {
+                      final genre = genreMap[movie.genreIds.isNotEmpty
+                          ? movie.genreIds.first
+                          : null];
+
+                      if (isLoading) {
+                        return TopRatedSlider(
+                          title: movie.title,
+                          imageUrl:
+                              'https://image.tmdb.org/t/p/w780${movie.backdropPath}',
+                          rating: movie.voteAverage,
+                          genre: genre,
+                          year: movie.releaseDate.year,
+                          onTap: () {},
+                        );
+                      }
+
                       return OpenContainer(
                         transitionDuration: const Duration(seconds: 1),
                         transitionType: ContainerTransitionType.fade,
@@ -130,10 +145,7 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                           imageUrl:
                               'https://image.tmdb.org/t/p/w780${movie.backdropPath}',
                           rating: movie.voteAverage,
-                          genre:
-                              genreMap[movie.genreIds.isNotEmpty
-                                  ? movie.genreIds.first
-                                  : null],
+                          genre: genre,
                           year: movie.releaseDate.year,
                           onTap: openContainer,
                         ),
@@ -145,10 +157,10 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                   const SizedBox(height: 14),
                   AnimatedSmoothIndicator(
                     activeIndex: _currentIndex,
-                    count: state.movies.length,
-                    effect: const ExpandingDotsEffect(
-                      activeDotColor: Color(0xffFFD054),
-                      dotColor: Colors.white24,
+                    count: movies.length,
+                    effect: ExpandingDotsEffect(
+                      activeDotColor: AppColors.rating,
+                      dotColor: AppColors.textFaint,
                       dotHeight: 6,
                       dotWidth: 6,
                       expansionFactor: 3.5,
@@ -156,12 +168,13 @@ class _TopMoviesSectionState extends State<TopMoviesSection> {
                     ),
                   ),
                 ],
-              );
-            }
-            return const SizedBox.shrink();
+              ),
+            );
           },
         ),
       ],
     );
   }
 }
+
+final _fakeMovies = List.generate(6, (index) => Result.fake(id: index));

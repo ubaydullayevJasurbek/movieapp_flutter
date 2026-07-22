@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF263238),
+      backgroundColor: AppColors.background,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Text(
               'Movie App',
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.textPrimary,
                 fontSize: 22,
                 fontWeight: FontWeight.w500,
               ),
@@ -52,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Text(
               'WELCOME',
               style: TextStyle(
-                color: Colors.white38,
+                color: AppColors.textFaint,
                 fontSize: 16,
                 letterSpacing: 2,
               ),
