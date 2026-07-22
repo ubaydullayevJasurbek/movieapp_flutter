@@ -68,22 +68,6 @@ The project is intentionally built as a **reference implementation of Clean Arch
 
 </div>
 
----
-
-## 📱 Screenshots
-
-> Drop your captures into `assets/screenshots/` and update the paths below.
-
-| Home | Search | Details |
-| :--: | :----: | :-----: |
-| <img src="assets/screenshots/home.png" width="240" alt="Home screen" /> | <img src="assets/screenshots/search.png" width="240" alt="Search screen" /> | <img src="assets/screenshots/details.png" width="240" alt="Details screen" /> |
-
-| Favourites | Profile | Dark Mode |
-| :--------: | :-----: | :-------: |
-| <img src="assets/screenshots/favourites.png" width="240" alt="Favourites screen" /> | <img src="assets/screenshots/profile.png" width="240" alt="Profile screen" /> | <img src="assets/screenshots/dark.png" width="240" alt="Dark theme" /> |
-
----
-
 ## ✨ Features
 
 ### 🏠 Home
